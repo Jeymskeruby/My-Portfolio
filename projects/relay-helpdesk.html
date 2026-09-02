@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relay Helpdesk — Case Study — James Kerby C. Sarmiento</title>
+<meta name="description" content="A multi-role IT helpdesk built on Laravel 13 + Filament + PostgreSQL + Reverb, rebuilt as a buildless vanilla-JS demo on localStorage.">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/portfolio.css">
+<style>:root{ --accent: var(--relay-amber); }</style>
+<script src="../js/portfolio.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="../index.html"><span class="monogram">JKS</span> James Kerby&nbsp;C. Sarmiento</a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#capabilities">Capabilities</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#contact">Contact</a>
+      <a class="btn btn-accent" href="../relay-helpdesk/index.html">Launch demo</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="casestudy-band">
+    <div class="container">
+      <p class="eyebrow">Case study · Commissioned full-stack project, rebuilt as a public demo</p>
+      <h1>Relay Helpdesk</h1>
+      <p class="lead">A multi-role IT helpdesk and ticketing platform — categorised intake, an ITSM priority matrix, capacity-aware routing, SLA escalation, time tracking, a knowledge base, and an append-only audit log.</p>
+      <div class="chip-row">
+        <span class="chip">Laravel 13</span><span class="chip">Inertia + React</span>
+        <span class="chip">Filament v5</span><span class="chip">PostgreSQL</span>
+        <span class="chip">Laravel Reverb (WebSockets)</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Overview</h2>
+      <p>
+        Relay Helpdesk is a multi-role IT helpdesk / ticketing platform (Client, Agent,
+        Team Leader, Admin, Super Admin): categorised ticket intake, an ITSM
+        urgency&nbsp;×&nbsp;impact priority matrix, capacity-aware round-robin routing,
+        automatic SLA breach escalation, time tracking, a knowledge base, an
+        append-only audit log with CSV/Excel export, and in-app notifications.
+        Originally built as a commissioned full-stack project on Laravel&nbsp;13 +
+        Inertia/React + a Filament&nbsp;v5 admin console, with PostgreSQL and Laravel
+        Reverb (WebSockets).
+      </p>
+
+      <h3>Who it's for</h3>
+      <ul>
+        <li><strong>Client</strong> — raises tickets, tracks status, browses the knowledge base.</li>
+        <li><strong>Agent</strong> — works an assigned queue, logs time, resolves with a proof photo.</li>
+        <li><strong>Team Leader</strong> — oversees a team's queue and capacity.</li>
+        <li><strong>Admin / Super Admin</strong> — manage categories, the priority matrix, SLA policy, routing rules, users, and the audit log.</li>
+      </ul>
+
+      <h3>Original architecture</h3>
+      <ul>
+        <li>Laravel&nbsp;13 application, Inertia + React front end, Filament&nbsp;v5 admin console.</li>
+        <li>PostgreSQL for persistence; migrations + seeders.</li>
+        <li>Laravel Reverb for WebSocket delivery of live updates and notifications.</li>
+        <li>Server-enforced business rules: priority matrix, routing capacity limits, SLA checks, role guards.</li>
+      </ul>
+
+      <h3>From production to public demo</h3>
+      <ul>
+        <li>Deleted the entire Laravel / Filament / Inertia backend and the Vite + Tailwind build step.</li>
+        <li>Split the single-file working prototype into a <strong>buildless, multi-file vanilla-JS static site</strong> — <code>index.html</code> + <code>css/app.css</code> + ~30 ordered <code>js/*.js</code> modules, one per section of the original script (storage, seed data, routing, SLA/system checks, time tracking, notifications, auth, one file per rendered view).</li>
+        <li>Replaced the prototype's <code>window.storage</code> host API with a <code>localStorage</code>-backed layer in <code>js/storage.js</code>: the whole database lives under one versioned JSON key; <code>skGet</code>/<code>skSet</code>/<code>loadDB</code> stay async so every call site is unchanged; an in-memory fallback keeps the app usable in private browsing.</li>
+        <li>Added <code>js/demo-banner.js</code> — a persistent banner on every view (including the admin screens) with the demo logins and a <strong>Reset Demo Data</strong> button.</li>
+        <li>Everything else — ticket lifecycle, routing engine, capacity limits, priority matrix, SLA logic, time tracking, notifications, team/category/user management, KB, audit-log export — is the <strong>unmodified prototype</strong>.</li>
+      </ul>
+
+      <h3>Architecture highlights</h3>
+      <ul>
+        <li><strong>ITSM priority matrix</strong> — a live urgency&nbsp;×&nbsp;impact grid the admin edits; the client's new-ticket form reflects it immediately.</li>
+        <li><strong>Routing engine</strong> — round-robin across eligible agents with a per-category capacity limit (an agent at their limit is skipped; freed when their ticket resolves).</li>
+        <li><strong>SLA system checks</strong> — a periodic pass escalates breached tickets and auto-closes resolved ones.</li>
+        <li><strong>Cross-role sync</strong> — a ~6-second poll re-reads the store so an agent's public reply appears on the client's ticket a few seconds later.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="prose" data-reveal>
+        <h2>Feature tour</h2>
+        <p>The fastest way to see it is to open the live demo and sign in as each role.</p>
+      </div>
+      <!-- PLACEHOLDER: replace with a .gallery of assets/img/relay/*.png in Phase 2 -->
+      <div class="media-placeholder">assets/img/relay/*.png — screenshots added in Phase 2</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Demo accounts</h2>
+      <p>Sign in with one click from the login screen — <strong>this build has no passwords</strong>.</p>
+      <table class="accounts">
+        <thead><tr><th>Role</th><th>Login</th></tr></thead>
+        <tbody>
+          <tr><td>Super Admin</td><td><code>superadmin@relay.io</code></td></tr>
+          <tr><td>Admin</td><td><code>admin@relay.io</code></td></tr>
+          <tr><td>Team Leader</td><td><code>leader1@relay.io</code>, <code>leader2@relay.io</code></td></tr>
+          <tr><td>Agent</td><td><code>alice@relay.io</code>, <code>bob@relay.io</code>, <code>charlie@relay.io</code>, <code>diana@relay.io</code></td></tr>
+          <tr><td>Client</td><td><code>john@acmecorp.com</code>, <code>sarah@brightleaf.io</code></td></tr>
+        </tbody>
+      </table>
+      <p>You can also use <strong>Create client account &amp; sign in</strong> on the login screen.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Try it</h2>
+      <div class="btn-row">
+        <a class="btn btn-accent" href="../relay-helpdesk/index.html">Launch the live demo</a>
+        <a class="btn btn-ghost" href="https://github.com/Jeymskeruby/relay-helpdesk" target="_blank" rel="noopener">Source on GitHub</a>
+        <a class="btn btn-ghost" href="../index.html#projects">Back to projects</a>
+      </div>
+      <p class="note">Data persists in your browser's <code>localStorage</code> as you click around, and the ~6-second poll propagates changes between roles. <strong>Reset Demo Data</strong> in the bottom banner restores the fictional starting dataset.</p>
+      <div class="note note--plain">
+        <strong>Note on the original project.</strong> This was a commissioned project;
+        the live version and the real client data are not included or reproduced here.
+        Only the frontend prototype, restructured to run against fictional local data, is shown.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© <span id="year">2026</span> James Kerby C. Sarmiento</span>
+    <span><a href="../index.html">Back to portfolio</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

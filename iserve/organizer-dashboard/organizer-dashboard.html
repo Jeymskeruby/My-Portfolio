@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizer Dashboard | iServe</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#1e40af',
+                        danger: '#ef4444',
+                        success: '#10b981',
+                        warning: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        #skillsContainer {
+            min-height: 4rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 0.5rem;
+            transition: border-color 0.2s ease;
+        }
+
+        #skillsContainer:focus-within {
+            border-color: #3b82f6;
+        }
+
+        #noSkillsMessage {
+            transition: opacity 0.2s ease;
+        }
+        [x-cloak] { display: none !important; }
+        .feather { stroke-width: 2.5; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+    <custom-header></custom-header>
+    
+    <main class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-primary mb-2">Organizer Dashboard</h1>
+                <p class="text-gray-600">Manage your organization's volunteer events and activities</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div id="notificationBell" class="relative cursor-pointer p-2 rounded-full hover:bg-gray-100">
+                    <i data-feather="bell"></i>
+                    <span id="notificationCount" class="absolute -top-1 -right-1 bg-danger text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </div>
+                <button id="logoutBtn" class="bg-danger hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 flex items-center gap-2">
+                    <i data-feather="log-out"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Suspension Banner -->
+        <div id="suspendedBanner" class="bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg mb-6 hidden">
+            <div class="flex items-center gap-3">
+                <i data-feather="alert-triangle" class="text-red-600"></i>
+                <div>
+                    <strong class="font-semibold">Account Suspended</strong>
+                    <p class="text-sm">Your organization account has been suspended. All events are temporarily unavailable until further notice.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white rounded-xl shadow-md mb-6">
+            <div class="border-b">
+                <nav class="flex overflow-x-auto">
+                    <button class="tab-btn active px-6 py-4 border-b-2 border-primary text-primary font-semibold whitespace-nowrap" data-tab="dashboard">
+                        <i data-feather="home" class="w-4 h-4 inline mr-2"></i>Dashboard
+                    </button>
+                    <button class="tab-btn px-6 py-4 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold whitespace-nowrap" data-tab="events">
+                        <i data-feather="calendar" class="w-4 h-4 inline mr-2"></i>Events
+                    </button>
+                    <button class="tab-btn px-6 py-4 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold whitespace-nowrap" data-tab="volunteers">
+                        <i data-feather="users" class="w-4 h-4 inline mr-2"></i>Volunteers
+                    </button>
+                    <button class="tab-btn px-6 py-4 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold whitespace-nowrap" data-tab="profile">
+                        <i data-feather="user" class="w-4 h-4 inline mr-2"></i>Profile
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="tab-content active fade-in" id="dashboard-tab">
+            <!-- Dashboard content -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+                        <span class="text-white text-2xl font-bold" id="orgInitials">O</span>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-800" id="orgName">Organization Name</h2>
+                        <p class="text-gray-600" id="orgEmail">Loading...</p>
+                        <p class="text-sm font-medium" id="orgStatus">
+                            <span class="status-badge px-2 py-1 rounded-full text-xs"></span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i data-feather="calendar" class="text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-blue-800" id="totalEvents">0</h3>
+                                <p class="text-blue-600 text-sm">Total Events</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                <i data-feather="users" class="text-green-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-green-800" id="totalVolunteers">0</h3>
+                                <p class="text-green-600 text-sm">Total Volunteers</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-purple-50 border border-purple-200 rounded-lg p-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i data-feather="user-check" class="text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-purple-800" id="pendingRequests">0</h3>
+                                <p class="text-purple-600 text-sm">Pending Requests</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-orange-50 border border-orange-200 rounded-lg p-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                                <i data-feather="trending-up" class="text-orange-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-orange-800" id="completionRate">0%</h3>
+                                <p class="text-orange-600 text-sm">Completion Rate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="border-t pt-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <button onclick="switchTab('events')" class="bg-primary hover:bg-secondary text-white font-semibold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center gap-2">
+                            <i data-feather="plus"></i>
+                            Create Event
+                        </button>
+                        <button onclick="switchTab('volunteers')" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center gap-2">
+                            <i data-feather="users"></i>
+                            Manage Volunteers
+                        </button>
+                        <button onclick="switchTab('profile')" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center gap-2">
+                            <i data-feather="settings"></i>
+                            Profile Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Events & Notifications -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Recent Events -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Recent Events</h3>
+                        <button onclick="switchTab('events')" class="text-primary hover:text-secondary text-sm font-medium">View All</button>
+                    </div>
+                    <div id="recentEventsList">
+                        <div class="text-center py-8 text-gray-500">
+                            <i data-feather="calendar" class="w-12 h-12 mx-auto mb-4 text-gray-400"></i>
+                            <p>No events created yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Notifications -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Recent Notifications</h3>
+                        <button class="text-primary hover:text-secondary text-sm font-medium" onclick="clearAllNotifications()">Clear All</button>
+                    </div>
+                    <div id="notificationsList">
+                        <div class="text-center py-8 text-gray-500">
+                            <i data-feather="bell" class="w-12 h-12 mx-auto mb-4 text-gray-400"></i>
+                            <p>No new notifications</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Tab -->
+        <div class="tab-content fade-in" id="events-tab">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Event Management</h2>
+                    <button id="createEventBtn" class="bg-primary hover:bg-secondary text-white font-semibold py-2 px-6 rounded-lg transition duration-300 flex items-center gap-2">
+                        <i data-feather="plus"></i>
+                        Create New Event
+                    </button>
+                </div>
+
+                <!-- Events Filter -->
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <select id="eventFilter" class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="all">All Events</option>
+                        <option value="pending">Pending Approval</option>
+                        <option value="approved">Approved</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                    <input type="text" id="eventSearch" placeholder="Search events..." class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary flex-grow">
+                </div>
+
+                <!-- Events List -->
+                <div id="eventsList">
+                    <div class="text-center py-12 text-gray-500">
+                        <i data-feather="calendar" class="w-16 h-16 mx-auto mb-4 text-gray-400"></i>
+                        <p class="text-lg mb-4">No events found</p>
+                        <button id="createFirstEventBtn" class="bg-primary hover:bg-secondary text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
+                            Create Your First Event
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Volunteers Tab -->
+        <div class="tab-content fade-in" id="volunteers-tab">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Volunteer Management</h2>
+                    <div class="flex gap-2">
+                        <button id="exportVolunteersBtn" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 flex items-center gap-2">
+                            <i data-feather="download"></i>
+                            Export
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Volunteer Management Tabs -->
+                <div class="border-b mb-6">
+                    <nav class="flex">
+                        <button class="volunteer-tab-btn active px-4 py-2 border-b-2 border-primary text-primary font-semibold" data-volunteer-tab="requests">
+                            Join Requests
+                        </button>
+                        <button class="volunteer-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold" data-volunteer-tab="participants">
+                            Participants
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Join Requests Section -->
+                <div id="joinRequestsContent" class="volunteer-tab-content">
+                    <div class="mb-4 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold">Join Requests</h3>
+                        <div class="flex gap-2">
+                            <button id="selectAllRequests" class="text-sm text-primary hover:text-secondary">Select All</button>
+                            <button id="bulkApproveBtn" class="bg-success hover:bg-green-700 text-white text-sm font-semibold py-1 px-3 rounded transition duration-300 hidden">
+                                Approve Selected
+                            </button>
+                            <button id="bulkRejectBtn" class="bg-danger hover:bg-red-700 text-white text-sm font-semibold py-1 px-3 rounded transition duration-300 hidden">
+                                Reject Selected
+                            </button>
+                        </div>
+                    </div>
+                    <div id="joinRequestsList">
+                        <!-- Join requests will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Participants Section -->
+                <div id="participantsContent" class="volunteer-tab-content hidden">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold mb-2">Event Participants</h3>
+                        <select id="eventParticipantsFilter" class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option value="">Select Event</option>
+                        </select>
+                    </div>
+                    <div id="participantsList">
+                        <!-- Participants will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div class="tab-content fade-in" id="profile-tab">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Organization Profile</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Profile Info -->
+                    <div class="lg:col-span-2">
+                        <form id="profileForm" class="space-y-6">
+                            <!-- Organization Information -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Organization Name *</label>
+                                    <input type="text" id="orgNameInput" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Organization Type *</label>
+                                    <select id="orgType" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" required>
+                                        <option value="">Select Type</option>
+                                        <option value="Non-Profit">Non-Profit</option>
+                                        <option value="School/University">School/University</option>
+                                        <option value="Business/Company">Business/Company</option>
+                                        <option value="Government Agency">Government Agency</option>
+                                        <option value="Community Group">Community Group</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Registration Number *</label>
+                                    <input type="text" id="orgRegNumber" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" 
+                                           placeholder="SEC/DTI/CDA/NGO registration no." required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Official Website/Page</label>
+                                    <input type="url" id="orgWebsite" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" 
+                                           placeholder="https://example.org">
+                                </div>
+                            </div>
+
+                            <!-- Contact Person Information -->
+                            <div class="border-t pt-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Person Information</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Contact Person Name *</label>
+                                        <input type="text" id="contactPerson" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Position in Organization *</label>
+                                        <input type="text" id="contactPosition" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contact Information -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Official Email Address *</label>
+                                    <input type="email" id="orgEmailInput" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Official Contact Number *</label>
+                                    <input type="tel" id="orgPhone" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" 
+                                           placeholder="+63 2 XXX XXXX" required>
+                                </div>
+                            </div>
+
+                            <!-- In the profile form section, update the username field -->
+                            <div class="border-t pt-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Login Credentials</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Username *</label>
+                                        <input type="text" id="orgUsername" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" required>
+                                        <p class="text-xs text-gray-500 mt-1">Your unique username for login</p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                        <input type="password" id="orgPassword" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" autocomplete="new-password" placeholder="Leave blank to keep current password">
+                                        <p class="text-xs text-gray-500 mt-1">Only fill this in if you want to change your password</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4 pt-4">
+                                <button type="submit" class="bg-primary hover:bg-secondary text-white font-semibold py-2 px-6 rounded-lg transition duration-300 flex items-center gap-2">
+                                    <i data-feather="save"></i>
+                                    Save Changes
+                                </button>
+                                <button type="button" id="cancelEditBtn" class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Profile Status & History -->
+                    <div class="space-y-6">
+                        <!-- Current Status -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold mb-3">Profile Status</h3>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Current Status:</span>
+                                    <span id="profileStatus" class="font-semibold"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Last Updated:</span>
+                                    <span id="lastUpdated" class="font-semibold"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Changes -->
+                        <div id="pendingChangesAlert" class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 hidden">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i data-feather="clock" class="text-yellow-600"></i>
+                                <h4 class="font-semibold text-yellow-800">Pending Approval</h4>
+                            </div>
+                            <p class="text-yellow-700 text-sm">Your profile changes are waiting for admin approval.</p>
+                        </div>
+
+                        <!-- Change History -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold mb-3">Recent Changes</h3>
+                            <div id="changeHistory" class="space-y-2">
+                                <!-- Change history will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <!-- Create Event Modal -->
+    <div id="createEventModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="createEventModalTitle" class="text-xl font-bold text-gray-800">Create New Event</h2>
+                <button onclick="closeModal('createEventModal')" class="text-gray-500 hover:text-gray-700">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <form id="createEventForm" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Event Name</label>
+                        <input type="text" name="eventName" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                        <select name="eventCategory" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option value="">Select Category</option>
+                            <option value="education">Education & Training</option>
+                            <option value="technology">Technology & Digital Services</option>
+                            <option value="community">Community Service</option>
+                            <option value="disaster">Disaster Relief & Humanitarian Aid</option>
+                            <option value="health">Health & Well-being</option>
+                            <option value="environment">Environmental & Sustainability</option>
+                            <option value="legal">Legal & Advocacy</option>
+                            <option value="arts">Arts, Culture & Media</option>
+                            <option value="stem">STEM & Research</option>
+                            <option value="social">Social & Humanitarian Work</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea name="eventDescription" rows="3" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Start Date & Time</label>
+                        <input type="datetime-local" name="eventStart" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">End Date & Time</label>
+                        <input type="datetime-local" name="eventEnd" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                        <input type="text" name="eventLocation" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Max Volunteers</label>
+                        <input type="number" name="maxVolunteers" min="1" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                </div>
+
+                <!-- Required Skills Section - Updated to match volunteer signup -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Required Skills</label>
+                    
+                    <!-- Skills Dropdown Trigger -->
+                    <div class="relative">
+                        <div id="eventSkillsDropdown" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white cursor-pointer min-h-12 flex items-center flex-wrap gap-2">
+                            <span id="eventSkillsPlaceholder" class="text-gray-500">Select required skills for this event...</span>
+                            <div id="selectedEventSkills" class="flex flex-wrap gap-2"></div>
+                        </div>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <i data-feather="chevron-down" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Skills Dropdown Content -->
+                    <div id="eventSkillsDropdownContent" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+                        <div class="p-4">
+                            <!-- Skills organized by interest categories -->
+                            <div class="space-y-6">
+                                <!-- Education & Training -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Education & Training</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-teaching" value="Teaching & Tutoring" class="mr-2 skill-checkbox">
+                                            <label for="skill-teaching" class="text-sm cursor-pointer">Teaching & Tutoring</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-public-speaking" value="Public Speaking" class="mr-2 skill-checkbox">
+                                            <label for="skill-public-speaking" class="text-sm cursor-pointer">Public Speaking</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-writing" value="Writing" class="mr-2 skill-checkbox">
+                                            <label for="skill-writing" class="text-sm cursor-pointer">Writing</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-editing" value="Editing" class="mr-2 skill-checkbox">
+                                            <label for="skill-editing" class="text-sm cursor-pointer">Editing</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Technology & Digital Services -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Technology & Digital Services</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-web-dev" value="Web Development" class="mr-2 skill-checkbox">
+                                            <label for="skill-web-dev" class="text-sm cursor-pointer">Web Development</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-graphic-design" value="Graphic Design" class="mr-2 skill-checkbox">
+                                            <label for="skill-graphic-design" class="text-sm cursor-pointer">Graphic Design</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-social-media" value="Social Media Management" class="mr-2 skill-checkbox">
+                                            <label for="skill-social-media" class="text-sm cursor-pointer">Social Media Management</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-it-support" value="IT Support & Troubleshooting" class="mr-2 skill-checkbox">
+                                            <label for="skill-it-support" class="text-sm cursor-pointer">IT Support & Troubleshooting</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-robotics" value="Robotics" class="mr-2 skill-checkbox">
+                                            <label for="skill-robotics" class="text-sm cursor-pointer">Robotics</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-coding" value="Coding Instruction" class="mr-2 skill-checkbox">
+                                            <label for="skill-coding" class="text-sm cursor-pointer">Coding Instruction</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Community Service -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Community Service</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-event-planning" value="Event Planning" class="mr-2 skill-checkbox">
+                                            <label for="skill-event-planning" class="text-sm cursor-pointer">Event Planning</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-fundraising" value="Fundraising" class="mr-2 skill-checkbox">
+                                            <label for="skill-fundraising" class="text-sm cursor-pointer">Fundraising</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-community-org" value="Community Organizing" class="mr-2 skill-checkbox">
+                                            <label for="skill-community-org" class="text-sm cursor-pointer">Community Organizing</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-research" value="Research & Documentation" class="mr-2 skill-checkbox">
+                                            <label for="skill-research" class="text-sm cursor-pointer">Research & Documentation</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-translation" value="Translation" class="mr-2 skill-checkbox">
+                                            <label for="skill-translation" class="text-sm cursor-pointer">Translation</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-interpretation" value="Interpretation" class="mr-2 skill-checkbox">
+                                            <label for="skill-interpretation" class="text-sm cursor-pointer">Interpretation</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Disaster Relief & Humanitarian Aid -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Disaster Relief & Humanitarian Aid</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-first-aid" value="First Aid & Medical Assistance" class="mr-2 skill-checkbox">
+                                            <label for="skill-first-aid" class="text-sm cursor-pointer">First Aid & Medical Assistance</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-disaster-response" value="Disaster Response" class="mr-2 skill-checkbox">
+                                            <label for="skill-disaster-response" class="text-sm cursor-pointer">Disaster Response</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-relief-ops" value="Relief Operations" class="mr-2 skill-checkbox">
+                                            <label for="skill-relief-ops" class="text-sm cursor-pointer">Relief Operations</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-construction" value="Construction & Carpentry" class="mr-2 skill-checkbox">
+                                            <label for="skill-construction" class="text-sm cursor-pointer">Construction & Carpentry</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-cooking" value="Cooking & Food Preparation" class="mr-2 skill-checkbox">
+                                            <label for="skill-cooking" class="text-sm cursor-pointer">Cooking & Food Preparation</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Health & Well-being -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Health & Well-being</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-counseling" value="Counseling & Mental Health Support" class="mr-2 skill-checkbox">
+                                            <label for="skill-counseling" class="text-sm cursor-pointer">Counseling & Mental Health</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-sports" value="Sports & Fitness Coaching" class="mr-2 skill-checkbox">
+                                            <label for="skill-sports" class="text-sm cursor-pointer">Sports & Fitness Coaching</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-nursing" value="Nursing & Patient Care" class="mr-2 skill-checkbox">
+                                            <label for="skill-nursing" class="text-sm cursor-pointer">Nursing & Patient Care</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-public-health" value="Public Health & Disease Prevention" class="mr-2 skill-checkbox">
+                                            <label for="skill-public-health" class="text-sm cursor-pointer">Public Health & Prevention</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Environmental & Sustainability -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Environmental & Sustainability</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-agriculture" value="Agriculture & Gardening" class="mr-2 skill-checkbox">
+                                            <label for="skill-agriculture" class="text-sm cursor-pointer">Agriculture & Gardening</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-wildlife" value="Wildlife & Animal Care" class="mr-2 skill-checkbox">
+                                            <label for="skill-wildlife" class="text-sm cursor-pointer">Wildlife & Animal Care</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-recycling" value="Recycling & Waste Management" class="mr-2 skill-checkbox">
+                                            <label for="skill-recycling" class="text-sm cursor-pointer">Recycling & Waste Management</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-disaster-resilience" value="Disaster Resilience & Risk Reduction" class="mr-2 skill-checkbox">
+                                            <label for="skill-disaster-resilience" class="text-sm cursor-pointer">Disaster Resilience</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Legal & Advocacy -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Legal & Advocacy</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-legal" value="Legal Assistance & Paralegal Support" class="mr-2 skill-checkbox">
+                                            <label for="skill-legal" class="text-sm cursor-pointer">Legal Assistance</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-human-rights" value="Human Rights Advocacy" class="mr-2 skill-checkbox">
+                                            <label for="skill-human-rights" class="text-sm cursor-pointer">Human Rights Advocacy</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-mediation" value="Mediation & Conflict Resolution" class="mr-2 skill-checkbox">
+                                            <label for="skill-mediation" class="text-sm cursor-pointer">Mediation & Conflict Resolution</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Arts, Culture & Media -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Arts, Culture & Media</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-photography" value="Photography" class="mr-2 skill-checkbox">
+                                            <label for="skill-photography" class="text-sm cursor-pointer">Photography</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-videography" value="Videography" class="mr-2 skill-checkbox">
+                                            <label for="skill-videography" class="text-sm cursor-pointer">Videography</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-music" value="Music & Performing Arts" class="mr-2 skill-checkbox">
+                                            <label for="skill-music" class="text-sm cursor-pointer">Music & Performing Arts</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-illustration" value="Illustration & Animation" class="mr-2 skill-checkbox">
+                                            <label for="skill-illustration" class="text-sm cursor-pointer">Illustration & Animation</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-content-creation" value="Content Creation" class="mr-2 skill-checkbox">
+                                            <label for="skill-content-creation" class="text-sm cursor-pointer">Content Creation</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-blogging" value="Blogging" class="mr-2 skill-checkbox">
+                                            <label for="skill-blogging" class="text-sm cursor-pointer">Blogging</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- STEM & Research -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">STEM & Research</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-data-analysis" value="Data Analysis & Research" class="mr-2 skill-checkbox">
+                                            <label for="skill-data-analysis" class="text-sm cursor-pointer">Data Analysis & Research</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-engineering" value="Engineering & Technical Support" class="mr-2 skill-checkbox">
+                                            <label for="skill-engineering" class="text-sm cursor-pointer">Engineering & Technical Support</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Social & Humanitarian Work -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Social & Humanitarian Work</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-crisis" value="Crisis Intervention & Peer Counseling" class="mr-2 skill-checkbox">
+                                            <label for="skill-crisis" class="text-sm cursor-pointer">Crisis Intervention</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="skill-accessibility" value="Accessibility & Disability Rights" class="mr-2 skill-checkbox">
+                                            <label for="skill-accessibility" class="text-sm cursor-pointer">Accessibility & Disability Rights</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Select All / None Buttons -->
+                            <div class="flex gap-2 mt-4 pt-4 border-t">
+                                <button type="button" id="selectAllSkills" class="text-xs text-primary hover:text-secondary">Select All</button>
+                                <button type="button" id="deselectAllSkills" class="text-xs text-gray-600 hover:text-gray-800">Deselect All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-xs text-gray-500 mt-1">Click to select skills. Selected skills will appear as chips above.</p>
+                                
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="bg-primary hover:bg-secondary text-white font-semibold py-2 px-6 rounded-lg transition duration-300 flex items-center gap-2">
+                        <i data-feather="save"></i>
+                        Submit for Approval
+                    </button>
+                    <button type="button" onclick="closeModal('createEventModal')" class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rejection Reason Modal -->
+    <div id="rejectionModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl p-6 max-w-md w-full mx-4">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Reason for Rejection</h2>
+            <form id="rejectionForm">
+                <input type="hidden" id="rejectRequestId">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Please provide a reason for rejection:</label>
+                    <textarea id="rejectionReason" rows="4" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                </div>
+                <div class="flex gap-4">
+                    <button type="submit" class="bg-danger hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
+                        Confirm Rejection
+                    </button>
+                    <button type="button" onclick="closeModal('rejectionModal')" class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Removal Reason Modal -->
+    <div id="removalModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl p-6 max-w-md w-full mx-4">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Reason for Removal</h2>
+            <form id="removalForm">
+                <input type="hidden" id="removeParticipantId">
+                <input type="hidden" id="removeEventId">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Please provide a reason for removal:</label>
+                    <textarea id="removalReason" rows="4" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                </div>
+                <div class="flex gap-4">
+                    <button type="submit" class="bg-danger hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
+                        Confirm Removal
+                    </button>
+                    <button type="button" onclick="closeModal('removalModal')" class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logoutModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl p-8 max-w-md text-center border-2 border-gray-200">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-feather="alert-triangle" class="text-red-600 w-8 h-8"></i>
+            </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Confirm Logout</h2>
+            <p class="text-gray-700 mb-6">Are you sure you want to logout from your organizer account?</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancelLogout" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                    Cancel
+                </button>
+                <button id="confirmLogout" class="bg-danger hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                    Yes, Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Event Modal -->
+    <div id="editEventModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200">
+                <h2 id="editEventModalTitle" class="text-xl font-semibold text-gray-800">Edit Event</h2>
+            </div>
+            
+            <form id="editEventForm" class="p-6 space-y-4">
+                <div>
+                    <label for="editEventName" class="block text-sm font-medium text-gray-700 mb-1">Event Name</label>
+                    <input type="text" id="editEventName" name="editEventName" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+                
+                <div>
+                    <label for="editEventDescription" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea id="editEventDescription" name="editEventDescription" rows="3" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                </div>
+                
+                <div>
+                    <label for="editEventCategory" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select id="editEventCategory" name="editEventCategory" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="">Select Category</option>
+                        <option value="education">Education & Training</option>
+                        <option value="technology">Technology & Digital Services</option>
+                        <option value="community">Community Service</option>
+                        <option value="disaster">Disaster Relief & Humanitarian Aid</option>
+                        <option value="health">Health & Well-being</option>
+                        <option value="environment">Environmental & Sustainability</option>
+                        <option value="legal">Legal & Advocacy</option>
+                        <option value="arts">Arts, Culture & Media</option>
+                        <option value="stem">STEM & Research</option>
+                        <option value="social">Social & Humanitarian Work</option>
+                    </select>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="editEventStart" class="block text-sm font-medium text-gray-700 mb-1">Start Date & Time</label>
+                        <input type="datetime-local" id="editEventStart" name="editEventStart" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="editEventEnd" class="block text-sm font-medium text-gray-700 mb-1">End Date & Time</label>
+                        <input type="datetime-local" id="editEventEnd" name="editEventEnd" required
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="editEventLocation" class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                    <input type="text" id="editEventLocation" name="editEventLocation" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+                
+                <div>
+                    <label for="editMaxVolunteers" class="block text-sm font-medium text-gray-700 mb-1">Maximum Volunteers</label>
+                    <input type="number" id="editMaxVolunteers" name="editMaxVolunteers" min="1" required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+                
+                <!-- Skills Section (same as create event modal) -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Required Skills</label>
+                    
+                    <!-- Skills Dropdown Trigger -->
+                    <div class="relative">
+                        <div id="editEventSkillsDropdown" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white cursor-pointer min-h-12 flex items-center flex-wrap gap-2">
+                            <span id="editEventSkillsPlaceholder" class="text-gray-500">Select required skills for this event...</span>
+                            <div id="editSelectedEventSkills" class="flex flex-wrap gap-2"></div>
+                        </div>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <i data-feather="chevron-down" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Skills Dropdown Content -->
+                    <div id="editEventSkillsDropdownContent" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+                        <div class="p-4">
+                            <!-- Skills organized by interest categories -->
+                            <div class="space-y-6">
+                                <!-- Education & Training -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Education & Training</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-teaching" value="Teaching & Tutoring" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-teaching" class="text-sm cursor-pointer">Teaching & Tutoring</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-public-speaking" value="Public Speaking" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-public-speaking" class="text-sm cursor-pointer">Public Speaking</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-writing" value="Writing" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-writing" class="text-sm cursor-pointer">Writing</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-editing" value="Editing" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-editing" class="text-sm cursor-pointer">Editing</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Technology & Digital Services -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Technology & Digital Services</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-web-dev" value="Web Development" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-web-dev" class="text-sm cursor-pointer">Web Development</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-graphic-design" value="Graphic Design" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-graphic-design" class="text-sm cursor-pointer">Graphic Design</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-social-media" value="Social Media Management" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-social-media" class="text-sm cursor-pointer">Social Media Management</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-it-support" value="IT Support & Troubleshooting" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-it-support" class="text-sm cursor-pointer">IT Support & Troubleshooting</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-robotics" value="Robotics" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-robotics" class="text-sm cursor-pointer">Robotics</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-coding" value="Coding Instruction" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-coding" class="text-sm cursor-pointer">Coding Instruction</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Community Service -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Community Service</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-event-planning" value="Event Planning" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-event-planning" class="text-sm cursor-pointer">Event Planning</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-fundraising" value="Fundraising" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-fundraising" class="text-sm cursor-pointer">Fundraising</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-community-org" value="Community Organizing" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-community-org" class="text-sm cursor-pointer">Community Organizing</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-research" value="Research & Documentation" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-research" class="text-sm cursor-pointer">Research & Documentation</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-translation" value="Translation" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-translation" class="text-sm cursor-pointer">Translation</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-interpretation" value="Interpretation" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-interpretation" class="text-sm cursor-pointer">Interpretation</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Disaster Relief & Humanitarian Aid -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Disaster Relief & Humanitarian Aid</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-first-aid" value="First Aid & Medical Assistance" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-first-aid" class="text-sm cursor-pointer">First Aid & Medical Assistance</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-disaster-response" value="Disaster Response" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-disaster-response" class="text-sm cursor-pointer">Disaster Response</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-relief-ops" value="Relief Operations" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-relief-ops" class="text-sm cursor-pointer">Relief Operations</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-construction" value="Construction & Carpentry" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-construction" class="text-sm cursor-pointer">Construction & Carpentry</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-cooking" value="Cooking & Food Preparation" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-cooking" class="text-sm cursor-pointer">Cooking & Food Preparation</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Health & Well-being -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Health & Well-being</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-counseling" value="Counseling & Mental Health Support" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-counseling" class="text-sm cursor-pointer">Counseling & Mental Health</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-sports" value="Sports & Fitness Coaching" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-sports" class="text-sm cursor-pointer">Sports & Fitness Coaching</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-nursing" value="Nursing & Patient Care" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-nursing" class="text-sm cursor-pointer">Nursing & Patient Care</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-public-health" value="Public Health & Disease Prevention" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-public-health" class="text-sm cursor-pointer">Public Health & Prevention</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Environmental & Sustainability -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Environmental & Sustainability</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-agriculture" value="Agriculture & Gardening" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-agriculture" class="text-sm cursor-pointer">Agriculture & Gardening</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-wildlife" value="Wildlife & Animal Care" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-wildlife" class="text-sm cursor-pointer">Wildlife & Animal Care</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-recycling" value="Recycling & Waste Management" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-recycling" class="text-sm cursor-pointer">Recycling & Waste Management</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-disaster-resilience" value="Disaster Resilience & Risk Reduction" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-disaster-resilience" class="text-sm cursor-pointer">Disaster Resilience</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Legal & Advocacy -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Legal & Advocacy</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-legal" value="Legal Assistance & Paralegal Support" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-legal" class="text-sm cursor-pointer">Legal Assistance</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-human-rights" value="Human Rights Advocacy" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-human-rights" class="text-sm cursor-pointer">Human Rights Advocacy</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-mediation" value="Mediation & Conflict Resolution" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-mediation" class="text-sm cursor-pointer">Mediation & Conflict Resolution</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Arts, Culture & Media -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Arts, Culture & Media</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-photography" value="Photography" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-photography" class="text-sm cursor-pointer">Photography</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-videography" value="Videography" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-videography" class="text-sm cursor-pointer">Videography</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-music" value="Music & Performing Arts" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-music" class="text-sm cursor-pointer">Music & Performing Arts</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-illustration" value="Illustration & Animation" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-illustration" class="text-sm cursor-pointer">Illustration & Animation</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-content-creation" value="Content Creation" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-content-creation" class="text-sm cursor-pointer">Content Creation</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-blogging" value="Blogging" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-blogging" class="text-sm cursor-pointer">Blogging</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- STEM & Research -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">STEM & Research</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-data-analysis" value="Data Analysis & Research" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-data-analysis" class="text-sm cursor-pointer">Data Analysis & Research</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-engineering" value="Engineering & Technical Support" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-engineering" class="text-sm cursor-pointer">Engineering & Technical Support</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Social & Humanitarian Work -->
+                                <div class="skill-category">
+                                    <h4 class="font-semibold text-gray-800 mb-2 text-sm">Social & Humanitarian Work</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-crisis" value="Crisis Intervention & Peer Counseling" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-crisis" class="text-sm cursor-pointer">Crisis Intervention</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="edit-skill-accessibility" value="Accessibility & Disability Rights" class="mr-2 skill-checkbox">
+                                            <label for="edit-skill-accessibility" class="text-sm cursor-pointer">Accessibility & Disability Rights</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Select All / None Buttons -->
+                            <div class="flex gap-2 mt-4 pt-4 border-t">
+                                <button type="button" id="editSelectAllSkills" class="text-xs text-primary hover:text-secondary">Select All</button>
+                                <button type="button" id="editDeselectAllSkills" class="text-xs text-gray-600 hover:text-gray-800">Deselect All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-xs text-gray-500 mt-1">Click to select skills. Selected skills will appear as chips above.</p>
+                
+                <div class="flex gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="DashboardUtils.closeModal('editEventModal')"
+                        class="flex-1 py-3 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-300">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="flex-1 py-3 px-4 bg-primary text-white rounded-lg hover:bg-secondary transition duration-300">
+                        Update Event
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notifications Center Modal -->
+    <div id="notificationsCenterModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden">
+            <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                <h2 class="text-xl font-bold text-gray-800">Notifications Center</h2>
+                <div class="flex items-center gap-4">
+                    <button id="markAllAsRead" class="text-primary hover:text-secondary text-sm font-medium">
+                        Mark All as Read
+                    </button>
+                    <button onclick="DashboardUtils.closeModal('notificationsCenterModal')" class="text-gray-500 hover:text-gray-700">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Notifications Filter Tabs -->
+            <div class="border-b border-gray-200">
+                <nav class="flex">
+                    <button class="notification-tab-btn active px-6 py-3 border-b-2 border-primary text-primary font-semibold" data-notification-tab="all">
+                        All Notifications
+                    </button>
+                    <button class="notification-tab-btn px-6 py-3 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold" data-notification-tab="unread">
+                        Unread
+                    </button>
+                    <button class="notification-tab-btn px-6 py-3 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold" data-notification-tab="events">
+                        Events
+                    </button>
+                    <button class="notification-tab-btn px-6 py-3 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold" data-notification-tab="volunteers">
+                        Volunteers
+                    </button>
+                </nav>
+            </div>
+            
+            <!-- Notifications Content -->
+            <div class="max-h-[calc(90vh-140px)] overflow-y-auto">
+                <div id="notificationsCenterContent" class="p-6">
+                    <!-- Notifications will be loaded here -->
+                    <div class="text-center py-12 text-gray-500">
+                        <i data-feather="bell" class="w-16 h-16 mx-auto mb-4 text-gray-400"></i>
+                        <p class="text-lg">No notifications</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notifications Footer -->
+            <div class="border-t border-gray-200 p-4 bg-gray-50">
+                <div class="flex justify-between items-center text-sm text-gray-600">
+                    <span id="notificationsSummary">0 notifications</span>
+                    <button onclick="dashboardManager.clearAllNotifications()" class="text-danger hover:text-red-700 font-medium">
+                        Clear All Notifications
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <custom-footer></custom-footer>
+
+    <!-- CORRECTED SCRIPT LOADING ORDER -->
+    <script src="../components/footer.js"></script>
+    <script src="../components/header.js"></script>
+    
+    <!-- Firebase SDKs -->
+    
+    <!-- Global utilities first -->
+    <script src="../mock-seed-data.js"></script>
+    <script src="../mock-firebase.js"></script>
+    <script src="../demo-banner.js"></script>
+    <script src="../script.js"></script>
+    
+    <!-- Then load the feature modules -->
+    <script src="js/features/dashboard.js"></script>
+    <script src="js/features/events.js"></script>
+    <script src="js/features/volunteers.js"></script>
+    <script src="js/features/profile.js"></script>
+    
+    <!-- Main controller last -->
+    <script src="organizer-dashboard.js"></script>
+</body>
+</html>

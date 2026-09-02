@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iServe — Case Study — James Kerby C. Sarmiento</title>
+<meta name="description" content="A volunteer-matching platform built on Firebase (Firestore + Auth), rebuilt as a static demo with an in-browser mock of the Firebase API slice it uses.">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/portfolio.css">
+<style>:root{ --accent: var(--iserve-blue); }</style>
+<script src="../js/portfolio.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="../index.html"><span class="monogram">JKS</span> James Kerby&nbsp;C. Sarmiento</a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#capabilities">Capabilities</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#contact">Contact</a>
+      <a class="btn btn-accent" href="../iserve/index.html">Launch demo</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="casestudy-band">
+    <div class="container">
+      <p class="eyebrow">Case study · Commissioned full-stack project, rebuilt as a public demo</p>
+      <h1>iServe</h1>
+      <p class="lead">A volunteer-matching platform — volunteers ↔ event organizers ↔ admin moderation — with skill-based matching, event join and approval flows, and a notifications centre.</p>
+      <div class="chip-row">
+        <span class="chip">Firebase</span><span class="chip">Firestore</span>
+        <span class="chip">Firebase Auth</span><span class="chip">Alpine.js</span>
+        <span class="chip">Web Components</span><span class="chip">Tailwind</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Overview</h2>
+      <p>
+        iServe is a volunteer-matching platform (volunteers ↔ event organizers ↔ admin
+        moderation), originally built as a commissioned full-stack project with a
+        Firebase (Firestore + Auth) backend.
+      </p>
+
+      <h3>Who it's for</h3>
+      <ul>
+        <li><strong>Volunteer</strong> — builds a skills profile, browses events, requests to join.</li>
+        <li><strong>Organizer</strong> — creates events, reviews and approves join requests.</li>
+        <li><strong>Admin</strong> — moderates the platform and approves pending organizers.</li>
+      </ul>
+
+      <h3>Original architecture</h3>
+      <ul>
+        <li>Firebase Firestore for all data; Firebase Auth for email/password sign-in.</li>
+        <li>Multi-page site; shared Web Components for the header/footer; Alpine.js for interactivity; Tailwind for styling.</li>
+        <li>Live Firestore <code>onSnapshot</code> listeners driving dashboards and the notifications centre.</li>
+      </ul>
+
+      <h3>From production to public demo</h3>
+      <ul>
+        <li>Removed the live Firebase SDK and the real project's API key/config.</li>
+        <li>Added <code>mock-firebase.js</code> — an in-browser re-implementation of the small slice of the Firebase Auth + Firestore API this app actually uses (<code>collection().where().orderBy().limit().get()</code>, <code>doc().set()/.update()/.delete()</code>, <code>onSnapshot()</code>, <code>FieldValue.serverTimestamp()/increment()/arrayUnion()/arrayRemove()</code>, email/password auth) backed by <code>localStorage</code> instead of a network call.</li>
+        <li>Added <code>mock-seed-data.js</code> — fictional demo volunteers, organizers, events, join requests, and notifications.</li>
+        <li>Added <code>demo-banner.js</code> — an on-page banner with the demo logins and a <strong>Reset Demo Data</strong> button.</li>
+        <li>The rest of the app's logic (matching, dashboards, forms, notifications) is <strong>unmodified original code</strong>.</li>
+      </ul>
+
+      <h3>Architecture highlights</h3>
+      <ul>
+        <li><strong>Chainable mock query builder</strong> — <code>where / orderBy / limit / get</code> plus <code>onSnapshot</code>, so the original component code runs against the mock unchanged.</li>
+        <li><strong>Web Components</strong> for a shared header/footer across every page of the multi-page app.</li>
+        <li><strong><code>getRootPrefix()</code></strong> — a small helper that resolves relative asset paths whether the site is served from the domain root or a sub-path, which is why the demo drops cleanly under <code>/iserve/</code>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="prose" data-reveal>
+        <h2>Feature tour</h2>
+        <p>Open the live demo and walk one flow per role — volunteer request, organizer approval, admin moderation.</p>
+      </div>
+      <!-- PLACEHOLDER: replace with a .gallery of assets/img/iserve/*.png in Phase 2 -->
+      <div class="media-placeholder">assets/img/iserve/*.png — screenshots added in Phase 2</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Demo accounts</h2>
+      <p>All passwords: <code>demo1234</code>.</p>
+      <table class="accounts">
+        <thead><tr><th>Role</th><th>Login</th></tr></thead>
+        <tbody>
+          <tr><td>Volunteer</td><td><code>juan.delacruz@example.com</code></td></tr>
+          <tr><td>Organizer (approved)</td><td>username <code>greenearth</code></td></tr>
+          <tr><td>Organizer (approved)</td><td>username <code>readforward</code></td></tr>
+          <tr><td>Organizer (pending — for the admin-approval demo)</td><td>username <code>newpaws</code></td></tr>
+          <tr><td>Admin</td><td><code>admin@admin.iserve.demo</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Try it</h2>
+      <div class="btn-row">
+        <a class="btn btn-accent" href="../iserve/index.html">Launch the live demo</a>
+        <a class="btn btn-ghost" href="../index.html#projects">Back to projects</a>
+      </div>
+      <p class="note">Data persists in your browser's <code>localStorage</code> as you click around, so an organizer approving a request shows up on that volunteer's dashboard. <strong>Reset Demo Data</strong> in the banner restores the starting state.</p>
+      <p class="note note--plain"><strong>Heads-up:</strong> this demo loads Tailwind, Alpine, and Feather Icons from a CDN and the Inter font from Google Fonts, so it needs a network connection to render fully. The portfolio site itself has no such dependency.</p>
+      <div class="note note--plain">
+        <strong>Note on the original project.</strong> This was a commissioned project;
+        the live version and real client data are not included or reproduced here.
+        Only the frontend code, restructured to run against fictional local data, is shown.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© <span id="year">2026</span> James Kerby C. Sarmiento</span>
+    <span><a href="../index.html">Back to portfolio</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

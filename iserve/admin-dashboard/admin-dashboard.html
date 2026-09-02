@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | iServe</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#1e40af',
+                        danger: '#ef4444',
+                        success: '#10b981',
+                        warning: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        [x-cloak] { 
+            display: none !important; 
+        }
+
+        .feather { 
+            stroke-width: 2.5; 
+        }
+
+        .tab-content { 
+            display: none; 
+        }
+
+        .tab-content.active { 
+            display: block; 
+        }
+
+        .fade-in { 
+            animation: fadeIn 0.3s ease-in; 
+        }
+
+        @keyframes fadeIn { 
+            from { opacity: 0; } 
+            to { opacity: 1; } 
+        }
+
+        /* Status badges */
+        .status-badge { 
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.625rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            line-height: 1;
+        }
+
+        .status-pending { 
+            background-color: rgb(254 252 232);
+            color: rgb(161 98 7);
+        }
+
+        .status-approved { 
+            background-color: rgb(240 253 244);
+            color: rgb(22 101 52);
+        }
+
+        .status-rejected { 
+            background-color: rgb(254 242 242);
+            color: rgb(185 28 28);
+        }
+
+        .status-suspended { 
+            background-color: rgb(255 247 237);
+            color: rgb(194 65 12);
+        }
+
+        .status-banned { 
+            background-color: rgb(254 242 242);
+            color: rgb(185 28 28);
+        }
+
+        .status-active { 
+            background-color: rgb(240 253 244);
+            color: rgb(22 101 52);
+        }
+
+        .status-cancelled { 
+            background-color: rgb(249 250 251);
+            color: rgb(107 114 128);
+        }
+
+        .skill-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            background-color: rgb(239 246 255);
+            color: rgb(30 64 175);
+            border: 1px solid rgb(219 234 254);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+            animation: modalFadeIn 0.2s ease-out;
+        }
+
+        .modal-overlay.hidden {
+            display: none !important;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            max-width: 42rem; /* max-w-2xl */
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.2s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 1.5rem 0;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: rgb(31 41 55);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            color: rgb(107 114 128);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background-color: rgb(243 244 246);
+            color: rgb(55 65 81);
+        }
+
+        .modal-body {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        @media (max-width: 640px) {
+            .modal-overlay {
+                padding: 0.5rem;
+            }
+            
+            .modal-content {
+                max-height: 95vh;
+                margin: 0.5rem;
+            }
+            
+            .modal-header {
+                padding: 1rem 1rem 0;
+            }
+            
+            .modal-body {
+                padding: 0 1rem 1rem;
+            }
+        }
+
+        .data-table {
+            width: 100%;
+            min-width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            padding: 0.75rem 1.5rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: rgb(107 114 128);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid rgb(229 231 235);
+        }
+
+        .data-table td {
+            padding: 1rem 1.5rem;
+            white-space: nowrap;
+            font-size: 0.875rem;
+            color: rgb(17 24 39);
+            border-bottom: 1px solid rgb(229 231 235);
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: rgb(249 250 251);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgb(229 231 235);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+        }
+
+        .btn-primary {
+            background-color: rgb(37 99 235);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: rgb(30 64 175);
+        }
+
+        .btn-secondary {
+            background-color: rgb(107 114 128);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgb(75 85 99);
+        }
+
+        .btn-danger {
+            background-color: rgb(239 68 68);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: rgb(185 28 28);
+        }
+
+        .btn-success {
+            background-color: rgb(16 185 129);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: rgb(5 150 105);
+        }
+
+        .btn-warning {
+            background-color: rgb(245 158 11);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: rgb(180 83 9);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: rgb(55 65 81);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid rgb(209 213 219);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: rgb(37 99 235);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid rgb(209 213 219);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            resize: vertical;
+            min-height: 5rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: rgb(37 99 235);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid rgb(209 213 219);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            background-color: white;
+            transition: all 0.2s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: rgb(37 99 235);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+    <custom-header></custom-header>
+    
+    <main class="container mx-auto px-4 py-8">
+        <!-- Header Section -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-primary mb-2">Admin Dashboard</h1>
+                <p class="text-gray-600">Manage volunteers, organizers, events, and platform content</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div id="notificationBell" class="relative cursor-pointer p-2 rounded-full hover:bg-gray-100">
+                    <i data-feather="bell"></i>
+                    <span id="notificationCount" class="absolute -top-1 -right-1 bg-danger text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </div>
+                <button id="logoutBtn" class="bg-danger hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 flex items-center gap-2">
+                    <i data-feather="log-out"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white rounded-xl shadow-md mb-6">
+            <div class="border-b">
+                <nav class="flex overflow-x-auto">
+                    <button class="tab-btn active px-6 py-4 border-b-2 border-primary text-primary font-semibold whitespace-nowrap" data-tab="dashboard">
+                        <i data-feather="home" class="w-4 h-4 inline mr-2"></i>Dashboard
+                    </button>
+                    <button class="tab-btn px-6 py-4 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold whitespace-nowrap" data-tab="volunteers">
+                        <i data-feather="users" class="w-4 h-4 inline mr-2"></i>Volunteers
+                    </button>
+                    <button class="tab-btn px-6 py-4 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold whitespace-nowrap" data-tab="organizers">
+                        <i data-feather="briefcase" class="w-4 h-4 inline mr-2"></i>Organizers
+                    </button>
+                    <button class="tab-btn px-6 py-4 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold whitespace-nowrap" data-tab="events">
+                        <i data-feather="calendar" class="w-4 h-4 inline mr-2"></i>Events
+                    </button>
+                    <button class="tab-btn px-6 py-4 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold whitespace-nowrap" data-tab="participants">
+                        <i data-feather="user-check" class="w-4 h-4 inline mr-2"></i>Participants
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div class="tab-content active fade-in" id="dashboard-tab">
+            <!-- Stats Cards -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i data-feather="users" class="text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-blue-800" id="totalVolunteers">0</h3>
+                            <p class="text-blue-600 text-sm">Total Volunteers</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i data-feather="briefcase" class="text-green-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-green-800" id="totalOrganizers">0</h3>
+                            <p class="text-green-600 text-sm">Total Organizers</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-purple-50 border border-purple-200 rounded-lg p-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i data-feather="calendar" class="text-purple-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-purple-800" id="totalEvents">0</h3>
+                            <p class="text-purple-600 text-sm">Total Events</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-orange-50 border border-orange-200 rounded-lg p-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                            <i data-feather="clock" class="text-orange-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-orange-800" id="pendingApprovals">0</h3>
+                            <p class="text-orange-600 text-sm">Pending Approvals</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity & Notifications -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Recent Activity -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Recent Activity</h3>
+                        <button class="text-primary hover:text-secondary text-sm font-medium">View All</button>
+                    </div>
+                    <div id="recentActivityList">
+                        <div class="text-center py-8 text-gray-500">
+                            <i data-feather="activity" class="w-12 h-12 mx-auto mb-4 text-gray-400"></i>
+                            <p>No recent activity</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Notifications -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Recent Notifications</h3>
+                        <button class="text-primary hover:text-secondary text-sm font-medium" onclick="adminDashboard.clearAllNotifications()">Clear All</button>
+                    </div>
+                    <div id="notificationsList">
+                        <div class="text-center py-8 text-gray-500">
+                            <i data-feather="bell" class="w-12 h-12 mx-auto mb-4 text-gray-400"></i>
+                            <p>No new notifications</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Volunteers Tab -->
+        <div class="tab-content fade-in" id="volunteers-tab">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Volunteer Management</h2>
+                    <div class="flex gap-4">
+                        <input type="text" id="volunteerSearch" placeholder="Search volunteers..." 
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
+                        <select id="volunteerFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="pending">Pending</option>
+                            <option value="suspended">Suspended</option>
+                            <option value="banned">Banned</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="volunteersList">
+                    <!-- Volunteers will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Organizers Tab -->
+        <div class="tab-content fade-in" id="organizers-tab">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Organizer Management</h2>
+                    <div class="flex gap-4">
+                        <input type="text" id="organizerSearch" placeholder="Search organizers..." 
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
+                        <select id="organizerFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
+                            <option value="all">All Status</option>
+                            <option value="approved">Approved</option>
+                            <option value="pending">Pending</option>
+                            <option value="suspended">Suspended</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="organizersList">
+                    <!-- Organizers will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Tab -->
+        <div class="tab-content fade-in" id="events-tab">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Event Management</h2>
+                    <div class="flex gap-4">
+                        <input type="text" id="eventSearch" placeholder="Search events..." 
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
+                        <select id="eventFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="eventsList">
+                    <!-- Events will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Participants Tab -->
+        <div class="tab-content fade-in" id="participants-tab">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Participant Management</h2>
+                    <div class="flex gap-4">
+                        <select id="eventParticipantsFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
+                            <option value="">Select Event</option>
+                        </select>
+                        <input type="text" id="participantSearch" placeholder="Search participants..." 
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
+                    </div>
+                </div>
+
+                <!-- Add participant management tabs -->
+                <div class="border-b mb-6">
+                    <nav class="flex">
+                        <button class="participant-tab-btn active px-4 py-2 border-b-2 border-primary text-primary font-semibold" data-participant-tab="requests">
+                            Join Requests
+                        </button>
+                        <button class="participant-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-600 hover:text-primary font-semibold" data-participant-tab="participants">
+                            Participants
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Join Requests Section -->
+                <div id="requestsContent" class="participant-tab-content">
+                    <div id="joinRequestsList">
+                        <!-- Join requests will be loaded here -->
+                        <div class="text-center py-12 text-gray-500">
+                            <i data-feather="users" class="w-16 h-16 mx-auto mb-4 text-gray-400"></i>
+                            <p class="text-lg mb-4">No pending join requests</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Participants Section -->
+                <div id="participantsContent" class="participant-tab-content hidden">
+                    <div id="participantsList">
+                        <!-- Participants will be loaded here -->
+                        <div class="text-center py-12 text-gray-500">
+                            <i data-feather="users" class="w-16 h-16 mx-auto mb-4 text-gray-400"></i>
+                            <p class="text-lg">Select an event to view participants</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <!-- User Details Modal -->
+    <div id="userDetailsModal" class="modal-overlay hidden">
+        <div class="modal-content p-6">
+            <h3 id="userModalTitle" class="text-xl font-bold text-gray-800 mb-4">User Details</h3>
+            <div id="userModalContent">
+                <!-- User details will be loaded here -->
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button onclick="AdminUtils.closeModal('userDetailsModal')" class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-md">
+                    Close
+                </button>
+                <div id="userActionButtons" class="flex gap-2">
+                    <!-- Action buttons will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Details Modal -->
+    <div id="eventDetailsModal" class="modal-overlay hidden">
+        <div class="modal-content p-6">
+            <h3 id="eventModalTitle" class="text-xl font-bold text-gray-800 mb-4">Event Details</h3>
+            <div id="eventModalContent">
+                <!-- Event details will be loaded here -->
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button onclick="AdminUtils.closeModal('eventDetailsModal')" class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-md">
+                    Close
+                </button>
+                <div id="eventActionButtons" class="flex gap-2">
+                    <!-- Action buttons will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal-overlay hidden">
+        <div class="modal-content p-6 max-w-md">
+            <h3 id="confirmationTitle" class="text-xl font-bold text-gray-800 mb-4">Confirm Action</h3>
+            <p id="confirmationMessage" class="text-gray-600 mb-6"></p>
+            <div class="flex justify-end gap-3">
+                <button onclick="AdminUtils.closeModal('confirmationModal')" class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-md">
+                    Cancel
+                </button>
+                <button id="confirmActionBtn" class="bg-danger hover:bg-red-700 text-white font-medium py-2 px-6 rounded-md">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Center Modal -->
+    <div id="notificationsCenterModal" class="modal-overlay hidden">
+        <div class="modal-content p-6">
+            <div class="modal-header">
+                <h3 class="text-xl font-bold text-gray-800">Notifications</h3>
+                <button onclick="AdminUtils.closeModal('notificationsCenterModal')" class="modal-close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex gap-2">
+                        <button onclick="adminDashboard.markAllAsRead()" class="text-primary hover:text-secondary text-sm font-medium">
+                            Mark All as Read
+                        </button>
+                        <button onclick="adminDashboard.clearAllNotifications()" class="text-danger hover:text-red-700 text-sm font-medium">
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Notification Tabs -->
+                <div class="border-b mb-4">
+                    <nav class="flex -mb-px">
+                        <button class="notification-tab-btn active px-4 py-2 border-b-2 border-primary text-primary font-medium text-sm" data-notification-tab="all">
+                            All
+                        </button>
+                        <button class="notification-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-600 hover:text-primary font-medium text-sm" data-notification-tab="unread">
+                            Unread
+                        </button>
+                        <button class="notification-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-600 hover:text-primary font-medium text-sm" data-notification-tab="system">
+                            System
+                        </button>
+                    </nav>
+                </div>
+                
+                <p id="notificationsSummary" class="text-sm text-gray-500 mb-4"></p>
+                <div id="notificationsCenterContent" class="space-y-4 max-h-96 overflow-y-auto">
+                    <!-- Notifications will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ban/Suspend Volunteer Modal -->
+    <div id="banVolunteerModal" class="modal-overlay hidden">
+        <div class="modal-content p-6 max-w-md">
+            <div class="modal-header">
+                <h3 id="banModalTitle" class="modal-title">Ban Volunteer</h3>
+                <button onclick="AdminUtils.closeModal('banVolunteerModal')" class="modal-close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="banVolunteerForm">
+                    <input type="hidden" id="banVolunteerId">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Action Type</label>
+                        <select id="banActionType" class="form-select" required>
+                            <option value="">Select action</option>
+                            <option value="suspend">Suspend</option>
+                            <option value="ban">Permanent Ban</option>
+                        </select>
+                    </div>
+
+                    <div id="suspensionDurationGroup" class="form-group hidden">
+                        <label class="form-label">Suspension Duration</label>
+                        <select id="suspensionDuration" class="form-select">
+                            <option value="1">1 Day</option>
+                            <option value="3">3 Days</option>
+                            <option value="7">1 Week</option>
+                            <option value="30">1 Month</option>
+                            <option value="90">3 Months</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+
+                    <div id="customDurationGroup" class="form-group hidden">
+                        <label class="form-label">Custom Duration (Days)</label>
+                        <input type="number" id="customDuration" class="form-input" min="1" max="365" placeholder="Enter number of days">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Reason for Action</label>
+                        <select id="banReason" class="form-select" required>
+                            <option value="">Select reason</option>
+                            <option value="violation_terms">Violation of Terms of Service</option>
+                            <option value="inappropriate_behavior">Inappropriate Behavior</option>
+                            <option value="spam_activity">Spam or Suspicious Activity</option>
+                            <option value="fake_account">Fake Account</option>
+                            <option value="harassment">Harassment or Abuse</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Detailed Explanation</label>
+                        <textarea id="banDetails" class="form-textarea" rows="4" 
+                                placeholder="Please provide detailed explanation for this action..." required></textarea>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" onclick="AdminUtils.closeModal('banVolunteerModal')" 
+                                class="btn btn-secondary">Cancel</button>
+                        <button type="submit" id="confirmBanBtn" class="btn btn-danger">
+                            Confirm Action
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ban/Suspend Organizer Modal -->
+    <div id="banOrganizerModal" class="modal-overlay hidden">
+        <div class="modal-content p-6 max-w-md">
+            <div class="modal-header">
+                <h3 id="banOrganizerModalTitle" class="modal-title">Ban Organizer</h3>
+                <button onclick="AdminUtils.closeModal('banOrganizerModal')" class="modal-close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="banOrganizerForm">
+                    <input type="hidden" id="banOrganizerId">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Action Type</label>
+                        <select id="banOrganizerActionType" class="form-select" required>
+                            <option value="">Select action</option>
+                            <option value="suspend">Suspend</option>
+                            <option value="ban">Permanent Ban</option>
+                        </select>
+                    </div>
+
+                    <div id="organizerSuspensionDurationGroup" class="form-group hidden">
+                        <label class="form-label">Suspension Duration</label>
+                        <select id="organizerSuspensionDuration" class="form-select">
+                            <option value="1">1 Day</option>
+                            <option value="3">3 Days</option>
+                            <option value="7">1 Week</option>
+                            <option value="30">1 Month</option>
+                            <option value="90">3 Months</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+
+                    <div id="organizerCustomDurationGroup" class="form-group hidden">
+                        <label class="form-label">Custom Duration (Days)</label>
+                        <input type="number" id="organizerCustomDuration" class="form-input" min="1" max="365" placeholder="Enter number of days">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Reason for Action</label>
+                        <select id="banOrganizerReason" class="form-select" required>
+                            <option value="">Select reason</option>
+                            <option value="violation_terms">Violation of Terms of Service</option>
+                            <option value="inappropriate_behavior">Inappropriate Behavior</option>
+                            <option value="spam_activity">Spam or Suspicious Activity</option>
+                            <option value="fake_organization">Fake Organization</option>
+                            <option value="harassment">Harassment or Abuse</option>
+                            <option value="fraudulent_activity">Fraudulent Activity</option>
+                            <option value="poor_event_management">Poor Event Management</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Detailed Explanation</label>
+                        <textarea id="banOrganizerDetails" class="form-textarea" rows="4" 
+                                placeholder="Please provide detailed explanation for this action..." required></textarea>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" onclick="AdminUtils.closeModal('banOrganizerModal')" 
+                                class="btn btn-secondary">Cancel</button>
+                        <button type="submit" id="confirmOrganizerBanBtn" class="btn btn-danger">
+                            Confirm Action
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Event Modal -->
+    <div id="editEventModal" class="modal-overlay hidden">
+        <div class="modal-content p-6 max-w-4xl">
+            <div class="modal-header">
+                <h3 id="editEventModalTitle" class="modal-title">Edit Event</h3>
+                <button onclick="AdminUtils.closeModal('editEventModal')" class="modal-close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="editEventForm">
+                    <input type="hidden" id="editEventId">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Basic Information -->
+                        <div class="space-y-4">
+                            <div class="form-group">
+                                <label class="form-label">Event Name *</label>
+                                <input type="text" id="editEventName" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Category *</label>
+                                <select id="editEventCategory" class="form-select" required>
+                                    <option value="">Select Category</option>
+                                    <option value="education">Education & Training</option>
+                                    <option value="technology">Technology & Digital Services</option>
+                                    <option value="community">Community Service</option>
+                                    <option value="disaster">Disaster Relief & Humanitarian Aid</option>
+                                    <option value="health">Health & Well-being</option>
+                                    <option value="environment">Environmental & Sustainability</option>
+                                    <option value="legal">Legal & Advocacy</option>
+                                    <option value="arts">Arts, Culture & Media</option>
+                                    <option value="stem">STEM & Research</option>
+                                    <option value="social">Social & Humanitarian Work</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Location *</label>
+                                <input type="text" id="editEventLocation" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Maximum Volunteers *</label>
+                                <input type="number" id="editMaxVolunteers" class="form-input" min="1" max="1000" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Date & Time -->
+                        <div class="space-y-4">
+                            <div class="form-group">
+                                <label class="form-label">Start Date & Time *</label>
+                                <input type="datetime-local" id="editEventStart" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">End Date & Time *</label>
+                                <input type="datetime-local" id="editEventEnd" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Event Status</label>
+                                <select id="editEventStatus" class="form-select">
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                    <option value="active">Active</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Description -->
+                    <div class="form-group mt-4">
+                        <label class="form-label">Description *</label>
+                        <textarea id="editEventDescription" class="form-textarea" rows="4" required></textarea>
+                    </div>
+                    
+                    <!-- Required Skills -->
+                    <div class="form-group mt-4">
+                        <label class="form-label">Required Skills</label>
+                        <div class="border border-gray-300 rounded-lg p-4">
+                            <div id="editSelectedEventSkills" class="flex flex-wrap gap-2 mb-3 min-h-8">
+                                <span id="editEventSkillsPlaceholder" class="text-gray-500 text-sm">No skills selected</span>
+                            </div>
+                            
+                            <div class="relative">
+                                <button type="button" id="editEventSkillsDropdown" 
+                                        class="w-full px-3 py-2 text-left border border-gray-300 rounded-md bg-white flex justify-between items-center">
+                                    <span class="text-gray-700">Select Required Skills</span>
+                                    <i data-feather="chevron-down" class="w-4 h-4"></i>
+                                </button>
+                                
+                                <div id="editEventSkillsDropdownContent" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                                    <div class="p-2 border-b">
+                                        <button type="button" id="editSelectAllSkills" class="text-xs text-primary hover:text-secondary">Select All</button>
+                                        <button type="button" id="editDeselectAllSkills" class="text-xs text-danger hover:text-red-700 ml-4">Deselect All</button>
+                                    </div>
+                                    <div class="p-2 grid grid-cols-2 gap-2">
+                                        <!-- Skills will be populated dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Admin Notes -->
+                    <div class="form-group mt-4">
+                        <label class="form-label">Admin Notes (Optional)</label>
+                        <textarea id="editAdminNotes" class="form-textarea" rows="3" 
+                                placeholder="Add any admin notes or comments about this event..."></textarea>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" onclick="AdminUtils.closeModal('editEventModal')" 
+                                class="btn btn-secondary">Cancel</button>
+                        <button type="submit" class="btn btn-primary">
+                            Update Event
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <custom-footer></custom-footer>
+
+    <!-- Scripts -->
+    <script src="../components/footer.js"></script>
+    <script src="../components/header.js"></script>
+    
+    <!-- Firebase SDKs -->
+    
+    <!-- Global utilities -->
+    <script src="../mock-seed-data.js"></script>
+    <script src="../mock-firebase.js"></script>
+    <script src="../demo-banner.js"></script>
+    <script src="../script.js"></script>
+    <script src="js/utils/admin-utils.js"></script>
+    
+    <!-- Feature modules -->
+    <script src="js/features/dashboard.js"></script>
+    <script src="js/features/users.js"></script>
+    <script src="js/features/organizers.js"></script>
+    <script src="js/features/events.js"></script>
+    <script src="js/features/participants.js"></script>
+    <script src="js/features/join-requests.js"></script>
+    
+    <!-- Main controller -->
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>

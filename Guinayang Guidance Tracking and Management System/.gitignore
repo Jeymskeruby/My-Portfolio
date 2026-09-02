@@ -1,0 +1,19 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+
+# Local databases (created at runtime by the demo)
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+logs/
+
+# Credentials — never commit
+*firebase-adminsdk*.json
+*service-account*.json

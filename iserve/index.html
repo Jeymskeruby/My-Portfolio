@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>iServe | Volunteer Matching Platform</title>
+<link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563eb',
+            secondary: '#1e40af'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+    .feather { stroke-width: 2.5; }
+    @media (min-width: 1024px) {
+      .carousel-card { max-width: 55rem; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased min-h-screen">
+
+  <custom-header></custom-header>
+  
+  <!-- Fullscreen Carousel -->
+  <main x-data="carousel()" x-cloak class="h-screen w-full relative bg-black">
+
+    <!-- Slides container -->
+    <section class="relative h-full w-full overflow-hidden">
+      <template x-for="(slide, idx) in slides" :key="idx">
+        <div
+          class="absolute inset-0 transition-all duration-1000 ease-in-out"
+          :class="active === idx ? 'opacity-100 z-20' : 'opacity-0 z-10 pointer-events-none'"
+          aria-hidden="true"
+        >
+          <img :src="slide.src" :alt="slide.alt" class="w-full h-full object-cover object-center" />
+          <div class="absolute inset-0 bg-white/20"></div>
+          <div class="absolute inset-0 flex items-center px-6 justify-start">
+            <div
+              x-show="active === idx"
+              x-transition.opacity
+              class="carousel-card bg-black/30 rounded-2xl 
+                p-8 md:p-12 text-white
+                w-full max-w-4xl
+                min-h-[320px] md:min-h-[380px] lg:min-h-[420px] xl:min-h-[460px]
+                ml-10 md:ml-20 lg:ml-28 xl:ml-36 2xl:ml-44
+                flex flex-col justify-center"
+            >
+              <!-- Slide-specific content: unchanged -->
+              <template x-if="idx === 0">
+                <div class="text-left">
+                  <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">Why iServe?</h1>
+                  <p class="mt-4 text-lg md:text-xl">Use your strengths to support local issues.</p>
+                  <p class="text-lg md:text-xl">Track your contributions and see your impact grow.</p>
+                </div>
+              </template>
+              <template x-if="idx === 1">
+                <div class="text-left">
+                  <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">Our Goal</h1>
+                  <p class="mt-4 text-lg md:text-xl">iServe bridges the gap between volunteers and communities by making it easier to find, join, and contribute to causes aligned with your skills.</p>
+                  <p class="mt-4 text-lg md:text-xl">Together, we build a culture of shared responsibility and local action.</p>
+                  <div class="mt-6">
+                    <a href="#opportunities" class="inline-block bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg text-lg transition">Find more ..</a>
+                  </div>
+                </div>
+              </template>
+              <template x-if="idx === 2">
+                <div class="text-left">
+                  <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">Volunteer smarter with iServe!</h1>
+                  <p class="mt-4 text-lg md:text-xl">Find more meaningful ways to help based on your unique skills and interests.</p>
+                  <div class="mt-6 flex gap-4">
+                    <a href="volunteer-signup/volunteer-signup.html" class="inline-block bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg text-lg transition">Join as Volunteer</a>
+                    <a href="organizer-signup/organizer-signup.html" class="inline-block bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg text-lg transition">Be an Organizer</a>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- Left arrow -->
+      <button
+        @click="prev()"
+        class="absolute left-6 top-1/2 -translate-y-1/2 z-40 text-white"
+        aria-label="Previous slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="feather w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <!-- Right arrow -->
+      <button
+        @click="next()"
+        class="absolute right-6 top-1/2 -translate-y-1/2 z-40 text-white"
+        aria-label="Next slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="feather w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+      <!-- Indicators -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3" role="tablist" aria-label="Slide indicators">
+        <template x-for="(s, i) in slides" :key="i">
+          <button
+            @click="go(i)"
+            :aria-label="'Go to slide ' + (i+1)"
+            :class="active === i ? 'w-8 h-3 rounded-full bg-white' : 'w-3 h-3 rounded-full bg-white/50'"
+            class="transition-all"
+          ></button>
+        </template>
+      </div>
+    </section>
+  </main>
+
+  <!-- Opportunities / content below the carousel -->
+<section id="opportunities" class="bg-white py-12">
+    <div class="max-w-9xl mx-auto px-4 md:px-6"> <!-- Reduced side padding -->
+        <!-- Centered Title -->
+        <div class="mb-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-primary">Featured Volunteer Events</h2>
+        </div>
+        
+        <!-- Search and Filter Controls - Centered, Half Width, Horizontal -->
+        <div class="mb-8 flex flex-col md:flex-row justify-center items-center gap-6">
+            <div class="w-full md:w-1/3 lg:w-1/4"> <!-- Further reduced width -->
+                <input type="text" placeholder="Search by Title, Location or Keyword"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    id="eventSearch">
+            </div>
+            <div class="w-full md:w-1/3 lg:w-1/4"> <!-- Further reduced width -->
+                <select class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    id="eventFilter">
+                    <option value="">All Categories</option>
+                    <option value="education">Education & Training</option>
+                    <option value="technology">Technology & Digital Services</option>
+                    <option value="community">Community Service</option>
+                    <option value="disaster">Disaster Relief & Humanitarian Aid</option>
+                    <option value="health">Health & Well-being</option>
+                    <option value="environment">Environmental & Sustainability</option>
+                    <option value="legal">Legal & Advocacy</option>
+                    <option value="arts">Arts, Culture & Media</option>
+                    <option value="stem">STEM & Research</option>
+                    <option value="social">Social & Humanitarian Work</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Events Container - 4 columns with less gap -->
+        <div id="eventsContainer" class="grid md:grid-cols-4 gap-4 md:gap-5"> <!-- Reduced gap -->
+            <!-- Events will be populated by JS -->
+        </div>
+    </div>
+</section>
+
+  <custom-footer></custom-footer>
+  
+  <!-- UPDATED: Use same Firebase version as organizer dashboard -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="components/header.js"></script>
+  <script src="components/footer.js"></script>
+  <script src="mock-seed-data.js"></script>
+    <script src="mock-firebase.js"></script>
+    <script src="demo-banner.js"></script>
+    <script src="script.js"></script>
+  <script src="index.js" defer></script>
+  <script>
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('carousel', () => ({
+        active: 0,
+        slides: [
+          { src: 'assets/images/Volunteer3.jpg', alt: 'Volunteers packing goods' },
+          { src: 'assets/images/Volunteer7.jpg', alt: 'Community construction / helpers' },
+          { src: 'assets/images/Volunteer5.jpg', alt: 'Volunteers teaching children' }
+        ],
+        intervalId: null,
+        init() {
+          this.slides.forEach(s => {
+            const i = new Image();
+            i.src = s.src;
+          });
+          this.intervalId = setInterval(() => this.next(), 6000);
+        },
+        next() {
+          this.active = (this.active + 1) % this.slides.length;
+        },
+        prev() {
+          this.active = (this.active - 1 + this.slides.length) % this.slides.length;
+        },
+        go(i) {
+          this.active = i;
+          this.reset();
+        },
+        reset() {
+          this.pause();
+          this.play();
+        },
+        pause() {
+          clearInterval(this.intervalId);
+          this.intervalId = null;
+        },
+        play() {
+          if (!this.intervalId) {
+            this.intervalId = setInterval(() => this.next(), 6000);
+          }
+        }
+      }));
+    });
+  </script>
+  <script> if (typeof feather !== 'undefined') feather.replace(); </script>
+</body>
+</html>

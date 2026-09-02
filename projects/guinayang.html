@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guinayang GTMS — Case Study — James Kerby C. Sarmiento</title>
+<meta name="description" content="A school guidance-office system built as a .NET 8 VB.NET WinForms desktop application, with a companion mobile app incident feed and Word/Excel document generation.">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/portfolio.css">
+<style>:root{ --accent: var(--guinayang-red); }</style>
+<script src="../js/portfolio.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="../index.html"><span class="monogram">JKS</span> James Kerby&nbsp;C. Sarmiento</a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#capabilities">Capabilities</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#contact">Contact</a>
+      <a class="btn btn-ghost" href="#video">Walkthrough</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="casestudy-band">
+    <div class="container">
+      <p class="eyebrow">Case study · Commissioned desktop project</p>
+      <h1>Guinayang GTMS</h1>
+      <p class="lead">A guidance-office system for a public high school — student records, guidance-case tracking, incident reports from a companion mobile app, dashboards, and Word/Excel document generation.</p>
+      <div class="chip-row">
+        <span class="chip">.NET 8</span><span class="chip">VB.NET</span>
+        <span class="chip">WinForms</span><span class="chip">SQLite</span>
+        <span class="chip">DocX / EPPlus</span><span class="chip">Firebase (original incident feed)</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Overview</h2>
+      <p>
+        A .NET&nbsp;8 (VB.NET, WinForms) desktop application for a school guidance office:
+        student records, guidance case tracking, incident reports from a companion mobile
+        app, dashboards, Word/Excel document generation, and user management. The build
+        shown here runs fully offline with pre-loaded sample data — no cloud services,
+        credentials, or network calls.
+      </p>
+
+      <h3>Who it's for</h3>
+      <ul>
+        <li><strong>Admin</strong> — full access plus user management and reporter contact details.</li>
+        <li><strong>Staff</strong> — records, cases, reports, and templates; reporter contact details hidden.</li>
+        <li><strong>Student / reporter</strong> — files incident reports from a separate companion mobile app.</li>
+      </ul>
+
+      <h3>Original architecture</h3>
+      <ul>
+        <li>.NET&nbsp;8 VB.NET WinForms desktop app with hand-drawn custom chrome and a centralized <code>UiTheme</code> module.</li>
+        <li>Local SQLite for student/case data; a Word-Interop path for generating official documents from templates.</li>
+        <li>Firebase/Firestore for the incident-report collection written by the companion mobile app, push notifications back to reporters, and cloud backup/restore.</li>
+        <li>Real credential login (PBKDF2-SHA1) with an append-only audit log.</li>
+      </ul>
+
+      <h3>From production to public demo</h3>
+      <ul>
+        <li>Replaced credential login with a click-a-role picker (Admin / Staff); sessions and audit entries are still written locally.</li>
+        <li>Removed Firebase / Firestore / gRPC — the incident-report store, backup, restore, and notification features are backed locally or disabled.</li>
+        <li>Added a deterministic seeder (<code>DemoSeeder.vb</code>): 12 students with guardians and academic history, 18 guidance cases, 10 incident reports spread across statuses, plus demo users — rebuilt by a <strong>Reset Demo Data</strong> action.</li>
+        <li>A template bootstrapper generates working Word templates on first run; exports and generated files are redirected under the user's Documents folder.</li>
+        <li>All data is fictional sample data — no real student records.</li>
+      </ul>
+
+      <h3>Architecture highlights</h3>
+      <ul>
+        <li><strong><code>UiTheme.vb</code></strong> — one module owning the palette (brick red / gold), typography, and a retrofit theming pass applied across every form.</li>
+        <li><strong>Template manager</strong> — a card grid of <code>.docx</code> templates with create/import/edit, persisted in <code>templates.json</code>; case and incident exports merge <code>{Placeholder}</code> fields.</li>
+        <li><strong>Incident lifecycle</strong> — reports move <code>unseen → on-process → resolved</code>; first open auto-advances and records an acknowledgement; exporting a report marks it resolved.</li>
+        <li><strong>Dashboard</strong> — stat tiles plus a chart with annual/yearly/monthly toggles and a colour-coded "students at risk" table.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= VIDEO ================= -->
+  <section class="section" id="video">
+    <div class="container">
+      <div class="prose" data-reveal>
+        <h2>Walkthrough</h2>
+        <p>This is a Windows desktop application, so the demo is a recorded walkthrough — login, dashboard, a student record, a guidance case, generating a Word document, processing an incident report, and Reset Demo Data.</p>
+      </div>
+      <!-- PLACEHOLDER (Phase 2): replace with
+      <div class="video-wrap"><video controls preload="none"
+        poster="../assets/guinayang/guinayang-walkthrough-poster.jpg"
+        src="../assets/guinayang/guinayang-walkthrough.mp4"></video></div> -->
+      <div class="media-placeholder">assets/guinayang/guinayang-walkthrough.mp4 — recording added in Phase 2</div>
+    </div>
+  </section>
+
+  <!-- ================= GALLERY ================= -->
+  <section class="section" id="gallery">
+    <div class="container">
+      <div class="prose" data-reveal>
+        <h2>Screenshots</h2>
+      </div>
+      <!-- PLACEHOLDER (Phase 2): replace with a .gallery of <figure> for
+           assets/guinayang/screens/01..12-*.png -->
+      <div class="media-placeholder">assets/guinayang/screens/*.png — 10–12 screenshots added in Phase 2</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Demo accounts</h2>
+      <table class="accounts">
+        <thead><tr><th>Role</th><th>How to sign in</th></tr></thead>
+        <tbody>
+          <tr><td>Admin</td><td>"Continue as Admin" on the login screen — no password</td></tr>
+          <tr><td>Staff</td><td>"Continue as Staff" on the login screen — no password</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= DOWNLOAD ================= -->
+  <section class="section" id="download">
+    <div class="container prose" data-reveal>
+      <h2>Get it</h2>
+      <!-- PLACEHOLDER (Phase 2): enable this button once the zip exists
+      <div class="btn-row">
+        <a class="btn btn-accent" href="../assets/guinayang/guinayang-demo-win-x64.zip">Download Windows x64 demo (.zip)</a>
+        <a class="btn btn-ghost" href="../index.html#projects">Back to projects</a>
+      </div> -->
+      <div class="btn-row">
+        <a class="btn btn-ghost" href="../index.html#projects">Back to projects</a>
+      </div>
+      <p class="note note--plain">
+        A self-contained Windows x64 build is being packaged. It needs no runtime install; on
+        first launch Windows SmartScreen may prompt — choose <em>More info → Run anyway</em>.
+        Data files and generated documents are created under your Documents folder.
+      </p>
+      <div class="note">
+        <strong>Planned: static web rebuild.</strong> A browser version of Guinayang GTMS is
+        planned, mirroring the Relay Helpdesk conversion — a <code>localStorage</code> data
+        layer, the <code>DemoSeeder</code> dataset ported to JavaScript, the ~8 screens rebuilt
+        buildless, and document export replaced with client-side CSV plus a print-to-PDF view.
+      </div>
+      <div class="note note--plain">
+        <strong>Note on the original project.</strong> This was a commissioned project;
+        the live version and any real data are not included or reproduced here. Only a
+        demo build running on fictional local data is shown.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© <span id="year">2026</span> James Kerby C. Sarmiento</span>
+    <span><a href="../index.html">Back to portfolio</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

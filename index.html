@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>James Kerby C. Sarmiento — Full-Stack Developer</title>
+<meta name="description" content="Full-stack developer. Three commissioned, multi-role dashboard systems — each rebuilt as a safe, self-contained public demo. Laravel, Firebase, .NET, and buildless vanilla JS.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/portfolio.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="James Kerby C. Sarmiento — Full-Stack Developer">
+<meta property="og:description" content="Three commissioned, multi-role dashboard systems, each rebuilt as a safe, self-contained public demo.">
+<meta property="og:image" content="assets/img/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<script src="js/portfolio.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="#top"><span class="monogram">JKS</span> James Kerby&nbsp;C. Sarmiento</a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="#about">About</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <!-- PLACEHOLDER: résumé PDF at assets/resume/James-Kerby-Sarmiento-CV.pdf (Phase 2) -->
+      <a class="btn btn-ghost" href="assets/resume/James-Kerby-Sarmiento-CV.pdf" target="_blank" rel="noopener">Résumé</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HERO ================= -->
+  <header class="section container hero" id="top">
+    <div data-reveal>
+      <!-- PLACEHOLDER: location, e.g. "Iloilo, Philippines" -->
+      <p class="eyebrow">Full-stack developer · <!-- PLACEHOLDER: location --></p>
+      <!-- PLACEHOLDER: 6–10 word headline -->
+      <h1>I build multi-role systems<br>and ship them as clickable demos.</h1>
+      <!-- PLACEHOLDER: 1–2 sentence intro -->
+      <p class="lead">
+        I take commissioned full-stack products — Laravel, Firebase, .NET — and
+        rebuild each one as a self-contained demo anyone can open and click
+        through: mock backend, fictional data, no credentials.
+      </p>
+      <div class="btn-row hero-cta">
+        <a class="btn btn-primary" href="#projects">View projects</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-portrait hero-portrait--placeholder" data-reveal>
+      <!-- PLACEHOLDER: <img src="assets/img/headshot.jpg" alt="James Kerby C. Sarmiento"> -->
+      assets/img/headshot.jpg
+    </div>
+  </header>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="section" id="about">
+    <div class="container prose" data-reveal>
+      <p class="eyebrow">About</p>
+      <h2>Full-stack, across the stack — and across platforms.</h2>
+      <!-- PLACEHOLDER: 2–3 short paragraphs of bio -->
+      <p>
+        I'm a full-stack developer who has shipped commissioned software on three
+        very different stacks: a Laravel&nbsp;13 + Inertia/React + Filament admin
+        console backed by PostgreSQL and WebSockets; a Firebase (Firestore + Auth)
+        web app; and a .NET&nbsp;8 VB.NET desktop application. Each was a real
+        multi-role system with a real client.
+      </p>
+      <p>
+        What ties the portfolio together is what I did next with each one.
+      </p>
+      <div class="callout">
+        <strong>Three commissioned, multi-role dashboard systems — each rebuilt as a
+        safe, self-contained public demo.</strong> Mock or local backend,
+        deterministic fictional data, no client data or credentials, one-click
+        role login, and a "Reset Demo Data" button. Open any of them below and
+        click around; nothing talks to a server.
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CAPABILITIES ================= -->
+  <section class="section" id="capabilities">
+    <div class="container">
+      <div data-reveal>
+        <p class="eyebrow">Capabilities</p>
+        <h2>What I can do — and where I've done it.</h2>
+        <p class="lead">Every capability below is tagged with the project(s) that demonstrate it.</p>
+      </div>
+
+      <div class="caps" data-reveal>
+
+        <div class="cap">
+          <h3>Role-based access &amp; multi-role UX</h3>
+          <p>5-, 4-, and 2-role dashboards with one-click role login, per-role navigation, and server-side-style guards.</p>
+          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span><span class="tag tag--guinayang">Guinayang</span></div>
+        </div>
+
+        <div class="cap">
+          <h3>Domain workflow engines</h3>
+          <p>ITSM urgency × impact priority matrix, capacity-aware round-robin routing, automatic SLA-breach escalation, and per-agent time tracking.</p>
+          <div class="tags"><span class="tag tag--relay">Relay</span></div>
+        </div>
+
+        <div class="cap">
+          <h3>Matching &amp; approval flows</h3>
+          <p>Skill-based volunteer ↔ event matching, join-request review, organizer approval, and an admin moderation queue.</p>
+          <div class="tags"><span class="tag tag--iserve">iServe</span></div>
+        </div>
+
+        <div class="cap">
+          <h3>Case &amp; incident management</h3>
+          <p>Guidance-case tracking, incident-report intake from a companion mobile app, and a status lifecycle (unseen → on-process → resolved).</p>
+          <div class="tags"><span class="tag tag--guinayang">Guinayang</span></div>
+        </div>
+
+        <div class="cap">
+          <h3>Data modeling &amp; persistence</h3>
+          <p>Versioned localStorage DB with an async API and in-memory fallback; a mock Firestore query engine (<code>where/orderBy/limit</code>, <code>onSnapshot</code>); SQLite schema with a deterministic seeder.</p>
+          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span><span class="tag tag--guinayang">Guinayang</span></div>
+        </div>
+
+        <div class="cap">
+          <h3>Realtime &amp; cross-role sync</h3>
+          <p>A ~6-second poll that propagates one role's changes to another; Firestore <code>onSnapshot</code> listeners; in-app notifications.</p>
+          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span></div>
+        </div>
+
+        <div class="cap">
+          <h3>Reporting &amp; exports</h3>
+          <p>Append-only audit log with CSV/Excel export; Word &amp; Excel document generation from user-managed templates.</p>
+          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--guinayang">Guinayang</span></div>
+        </div>
+
+        <div class="cap">
+          <h3>Frontend architecture</h3>
+          <p>Buildless multi-file vanilla JS (31 ordered modules, one re-rendered <code>#app</code>); a Web-Components + Alpine multi-page app; WinForms with a centralized theme module.</p>
+          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span><span class="tag tag--guinayang">Guinayang</span></div>
+        </div>
+
+        <div class="cap">
+          <h3>Design systems &amp; UI</h3>
+          <p>Token-based CSS design system; Tailwind + a shared component library; a <code>UiTheme</code> palette/typography module for desktop.</p>
+          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span><span class="tag tag--guinayang">Guinayang</span></div>
+        </div>
+
+        <div class="cap">
+          <h3>Production → public demo conversion</h3>
+          <p>Laravel&nbsp;13 + Filament + Postgres + Reverb / Firebase / .NET&nbsp;8 + SQLite apps reduced to browser-run demos: fictional deterministic data, zero credentials, one-click reset.</p>
+          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span><span class="tag tag--guinayang">Guinayang</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div data-reveal>
+        <p class="eyebrow">Projects</p>
+        <h2>Three systems. Three stacks. One approach.</h2>
+      </div>
+
+      <div class="grid">
+
+        <!-- Relay Helpdesk -->
+        <article class="card card--relay" data-reveal>
+          <div class="card-thumb card-thumb--placeholder">assets/img/relay-thumb.png</div>
+          <div class="card-body">
+            <h3>Relay Helpdesk</h3>
+            <p class="desc">
+              A multi-role IT helpdesk / ticketing platform: categorised intake, an
+              ITSM priority matrix, capacity-aware routing, SLA-breach escalation,
+              time tracking, a knowledge base, and an append-only audit log with
+              CSV/Excel export. Originally Laravel&nbsp;13 + Inertia/React + Filament&nbsp;v5
+              + PostgreSQL + Reverb; the demo is buildless vanilla JS on localStorage.
+            </p>
+            <div class="tags">
+              <span class="tag">5 roles</span><span class="tag">localStorage DB</span>
+              <span class="tag">vanilla JS</span><span class="tag">SLA engine</span>
+            </div>
+            <div class="btn-row">
+              <a class="btn btn-accent" href="relay-helpdesk/index.html">Launch demo</a>
+              <a class="btn btn-ghost" href="projects/relay-helpdesk.html">Case study</a>
+              <a class="btn btn-ghost" href="https://github.com/Jeymskeruby/relay-helpdesk" target="_blank" rel="noopener">Code</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- iServe -->
+        <article class="card card--iserve" data-reveal>
+          <div class="card-thumb card-thumb--placeholder">assets/img/iserve-thumb.png</div>
+          <div class="card-body">
+            <h3>iServe</h3>
+            <p class="desc">
+              A volunteer-matching platform: volunteers ↔ event organizers ↔ admin
+              moderation, with skill-based matching, event join/approval flows, and a
+              notifications centre. Originally a Firebase (Firestore + Auth) app; the
+              demo replaces Firebase with an in-browser mock of the exact API slice it uses.
+            </p>
+            <div class="tags">
+              <span class="tag">3 roles + admin</span><span class="tag">mock Firebase</span>
+              <span class="tag">Alpine + Web Components</span><span class="tag">multi-page</span>
+            </div>
+            <div class="btn-row">
+              <a class="btn btn-accent" href="iserve/index.html">Launch demo</a>
+              <a class="btn btn-ghost" href="projects/iserve.html">Case study</a>
+              <!-- PLACEHOLDER: iServe repo URL — add a Code button here if one exists -->
+            </div>
+          </div>
+        </article>
+
+        <!-- Guinayang GTMS -->
+        <article class="card card--guinayang" data-reveal>
+          <div class="card-thumb card-thumb--placeholder">assets/guinayang/screens/02-dashboard.png</div>
+          <div class="card-body">
+            <h3>Guinayang GTMS <span class="card-badge">Desktop app — video + screenshots</span></h3>
+            <p class="desc">
+              A school guidance-office system: student records, guidance-case tracking,
+              incident reports submitted from a companion mobile app, dashboards, and
+              Word/Excel document generation. Built as a .NET&nbsp;8 VB.NET WinForms
+              desktop application; the original used Firebase/Firestore for the incident
+              feed and cloud backup.
+            </p>
+            <div class="tags">
+              <span class="tag">VB.NET</span><span class="tag">WinForms</span>
+              <span class="tag">SQLite</span><span class="tag">Word/Excel export</span>
+            </div>
+            <div class="btn-row">
+              <a class="btn btn-accent" href="projects/guinayang.html#video">Watch walkthrough</a>
+              <a class="btn btn-ghost" href="projects/guinayang.html#gallery">Screenshots</a>
+              <!-- PLACEHOLDER: enable once assets/guinayang/guinayang-demo-win-x64.zip exists (Phase 2) -->
+              <a class="btn btn-ghost" href="projects/guinayang.html#download" aria-disabled="true" title="Windows demo build coming soon">Download (Windows x64)</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="section section--tight" id="contact">
+    <div class="container prose" data-reveal>
+      <p class="eyebrow">Contact</p>
+      <h2>Let's talk.</h2>
+      <p class="lead">
+        <!-- PLACEHOLDER: public display email -->
+        <a href="mailto:PLACEHOLDER@example.com">PLACEHOLDER@example.com</a> ·
+        <a href="https://github.com/Jeymskeruby" target="_blank" rel="noopener">github.com/Jeymskeruby</a> ·
+        <!-- PLACEHOLDER: LinkedIn URL -->
+        <a href="#" target="_blank" rel="noopener">LinkedIn</a> ·
+        <a href="assets/resume/James-Kerby-Sarmiento-CV.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© <span id="year">2026</span> James Kerby C. Sarmiento</span>
+    <span>Built buildless — hand-written HTML/CSS/JS, deployed on GitHub Pages</span>
+  </div>
+</footer>
+
+</body>
+</html>
