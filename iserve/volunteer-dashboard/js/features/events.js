@@ -405,7 +405,7 @@ async function loadCompletedEvents() {
                 </div>
                 <div class="flex justify-end">
                     <button class="view-details-btn bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md"
-                        data-id="${event.id}" data-participant-id="${event.participantId}" data-type="joined">
+                        data-id="${event.id}" data-participant-id="${event.participantId}" data-type="completed">
                         View Details
                     </button>
                 </div>
@@ -520,6 +520,9 @@ async function showEventDetails(eventId, type) {
         } else if (type === 'pending') {
             statusElement.textContent = 'Pending Approval';
             statusElement.className = 'text-yellow-600 font-medium';
+        } else if (type === 'completed') {
+            statusElement.textContent = 'Completed';
+            statusElement.className = 'text-gray-600 font-medium';
         }
 
         // Populate skills
@@ -541,7 +544,13 @@ async function showEventDetails(eventId, type) {
         document.getElementById('leaveEventBtn').classList.add('hidden');
         document.getElementById('cancelRequestBtn').classList.add('hidden');
         
-        if (type === 'joined') {
+        // An event that has already ended can't be left — by then the
+        // participation is history. Checking the end time as well as the type
+        // covers a "joined" card that was rendered just before the event ended.
+        const modalEndTime = eventData.endTime?.toDate ? eventData.endTime.toDate() : new Date(eventData.endTime);
+        const hasEnded = !isNaN(modalEndTime) && modalEndTime < new Date();
+
+        if (type === 'joined' && !hasEnded) {
             document.getElementById('leaveEventBtn').classList.remove('hidden');
             document.getElementById('leaveEventBtn').onclick = () => leaveEvent(window.currentParticipantId);
         } else if (type === 'pending') {

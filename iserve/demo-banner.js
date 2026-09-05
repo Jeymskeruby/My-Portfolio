@@ -22,13 +22,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const segments = window.location.pathname.split('/').filter(Boolean);
   const parentSegment = segments.length >= 2 ? segments[segments.length - 2] : '';
   const isInSubfolder = KNOWN_SUBFOLDERS.includes(parentSegment);
-  const isOnAdminLogin = parentSegment === 'admin-login';
-  const adminLoginHref = isOnAdminLogin ? '#' : (isInSubfolder ? '../admin-login/admin-login.html' : 'admin-login/admin-login.html');
+  // Admin login is reachable from the welcome page only — the same rule the
+  // logo's hidden Left Alt + Right Click shortcut follows (components/header.js).
+  const currentPage = segments[segments.length - 1] || '';
+  const isWelcomePage = !isInSubfolder &&
+    (currentPage === 'index.html' || currentPage === '' || window.location.pathname.endsWith('/'));
+  const adminLoginHref = 'admin-login/admin-login.html';
 
   bar.innerHTML = `
     <span>🧪 Portfolio demo — running on local mock data, no live backend.</span>
     <span style="opacity:0.8">Demo logins: <code>juan.delacruz@example.com</code> / <code>greenearth</code> / <code>readforward</code> / <code>admin@admin.iserve.demo</code> — password <code>demo1234</code></span>
-    ${isOnAdminLogin ? '' : `<a href="${adminLoginHref}" style="color:#93c5fd;text-decoration:underline;">Admin Login</a>`}
+    ${isWelcomePage ? `<a href="${adminLoginHref}" style="color:#93c5fd;text-decoration:underline;">Admin Login</a><span style="opacity:0.8">(or hold Left Alt + right-click the iServe logo)</span>` : ''}
     <button id="iserveResetDemoBtn" style="background:#2563eb;color:white;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;">Reset Demo Data</button>
   `;
   document.body.appendChild(bar);

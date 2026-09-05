@@ -298,87 +298,83 @@ class CustomHeader extends HTMLElement {
     }
   }
 
+  // Hidden admin entrance: LEFT ALT + RIGHT CLICK on the logo, and only on
+  // the welcome page. Every other page (dashboards, login/signup) is left
+  // alone — the old alt + left-click handler fired there too and sent people
+  // to a relative admin-login path that doesn't resolve from a subfolder.
   setupAdminAccess() {
       const logoLink = this.shadowRoot.getElementById('logoLink');
       if (!logoLink) return;
 
-      let altKeyPressed = false;
+      // Right Alt (AltGr on some layouts) shouldn't count, so track the
+      // physical key instead of relying on the generic altKey flag alone.
+      let leftAltDown = false;
 
-      // Track Alt key state
+      let hoveringLogo = false;
+
       document.addEventListener('keydown', (e) => {
-          if (e.key === 'Alt' || e.keyCode === 18) {
-              altKeyPressed = true;
-          }
+          if (e.code !== 'AltLeft') return;
+          leftAltDown = true;
+          // Pressing Alt while already hovering should reveal the hint too,
+          // not just hovering while Alt is already down.
+          if (hoveringLogo && isAdminShortcutAllowed()) this.showAdminAccessHint();
       });
 
       document.addEventListener('keyup', (e) => {
-          if (e.key === 'Alt' || e.keyCode === 18) {
-              altKeyPressed = false;
-          }
+          if (e.code !== 'AltLeft') return;
+          leftAltDown = false;
+          this.hideAdminAccessHint();
       });
 
-      // Handle logo click
-      logoLink.addEventListener('click', (e) => {
-          const currentPath = window.location.pathname;
-          const currentPage = window.location.pathname.split('/').pop();
-          
-          // Check if we're on admin pages
-          const isAdminPage = currentPath.includes('admin-') || currentPath.includes('admin/');
-          const isAdmin = localStorage.getItem('isAdmin') === 'true';
-          
-          // Check if we're on login pages (where we want to restrict admin access)
-          const isOnLoginPage = currentPath.includes('login') || 
-                              currentPath.includes('volunteer-login') || 
-                              currentPath.includes('organizer-login');
-          
-          const isOnSignupPage = currentPath.includes('signup') || 
-                                currentPath.includes('volunteer-signup') || 
-                                currentPath.includes('organizer-signup');
+      // Holding Alt can hand focus to the browser menu bar, which swallows the
+      // keyup — clear the flag when the page loses focus so it can't stick on.
+      window.addEventListener('blur', () => {
+          leftAltDown = false;
+          this.hideAdminAccessHint();
+      });
 
-          // If Alt key is pressed and we're not already on an admin page
-          // BUT restrict this functionality on login/signup pages
-          if (altKeyPressed && !isAdminPage && !isAdmin) {
-              // BLOCK admin access from login/signup pages
-              if (isOnLoginPage || isOnSignupPage) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  
-                  this.showToast('Admin access is not available from login pages. Please go to homepage first.', 'warning');
-                  console.log('Admin access blocked from login page');
-                  return false;
-              }
-              
-              // Allow admin access from other pages (like homepage)
+      const isAdminShortcutAllowed = () => {
+          if (!this.isWelcomePage()) return false;          // welcome page only
+          if (localStorage.getItem('isAdmin') === 'true') return false; // already signed in
+          return true;
+      };
+
+      // altKey confirms Alt is still physically held for this event;
+      // leftAltDown narrows it to the LEFT Alt key specifically.
+      const isLeftAltHeld = (e) => leftAltDown && !!e.altKey && !e.ctrlKey;
+
+      logoLink.addEventListener('contextmenu', (e) => {
+          // Anywhere else, or without the chord, the normal context menu opens.
+          if (!isLeftAltHeld(e) || !isAdminShortcutAllowed()) return;
+
+          e.preventDefault();
+          e.stopPropagation();
+
+          this.hideAdminAccessHint();
+          this.showToast('Redirecting to Admin Login...', 'info');
+
+          // The welcome page is at the site root, so this is always './'.
+          const adminLoginPath = this.getRootPrefix() + 'admin-login/admin-login.html';
+          setTimeout(() => {
+              window.location.href = adminLoginPath;
+          }, 800);
+      });
+
+      // Alt + LEFT click used to be the shortcut. Swallow it on the welcome
+      // page (the browser would otherwise treat it as "save link") and point
+      // the user at the real chord instead.
+      logoLink.addEventListener('click', (e) => {
+          if (isLeftAltHeld(e) && isAdminShortcutAllowed()) {
               e.preventDefault();
               e.stopPropagation();
-              
-              this.showToast('Redirecting to Admin Login...', 'info');
-              
-              // Calculate admin login path
-              const adminLoginPath = this.calculatePath('admin-login/admin-login.html');
-              
-              // Redirect to admin login after a short delay
-              setTimeout(() => {
-                  window.location.href = adminLoginPath;
-              }, 800);
-              
-              return false;
+              this.showToast('Hold left Alt and RIGHT-click the logo for admin access.', 'info');
           }
-          
-          // Normal logo link behavior (handled by updateLogoLink)
       });
 
-      // Add visual feedback when Alt is pressed (but not on login pages)
+      // Visual feedback, welcome page only
       logoLink.addEventListener('mouseenter', () => {
-          const currentPath = window.location.pathname;
-          const isOnLoginPage = currentPath.includes('login') || 
-                              currentPath.includes('volunteer-login') || 
-                              currentPath.includes('organizer-login');
-          const isOnSignupPage = currentPath.includes('signup') || 
-                                currentPath.includes('volunteer-signup') || 
-                                currentPath.includes('organizer-signup');
-          
-          if (altKeyPressed && !isOnLoginPage && !isOnSignupPage) {
+          hoveringLogo = true;
+          if (leftAltDown && isAdminShortcutAllowed()) {
               logoLink.style.opacity = '0.8';
               logoLink.style.cursor = 'pointer';
               this.showAdminAccessHint();
@@ -386,9 +382,20 @@ class CustomHeader extends HTMLElement {
       });
 
       logoLink.addEventListener('mouseleave', () => {
+          hoveringLogo = false;
           logoLink.style.opacity = '1';
           this.hideAdminAccessHint();
       });
+  }
+
+  // True only on the site's welcome page (index.html at the iServe root), not
+  // on any of the one-level-deep dashboard / login / signup pages.
+  isWelcomePage() {
+      const currentPath = window.location.pathname;
+      const currentPage = currentPath.split('/').pop();
+      const isRootLevel = this.getRootPrefix() === './';
+      const isIndex = currentPage === 'index.html' || currentPage === '' || currentPath.endsWith('/');
+      return isRootLevel && isIndex;
   }
 
   showAdminAccessHint() {
@@ -416,7 +423,7 @@ class CustomHeader extends HTMLElement {
                   white-space: nowrap;
               }
           </style>
-          Alt + Click to access Admin Login
+          Left Alt + Right Click to access Admin Login
       `;
       
       document.body.appendChild(hint);
