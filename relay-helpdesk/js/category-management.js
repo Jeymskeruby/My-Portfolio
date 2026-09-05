@@ -59,13 +59,14 @@ async function removeCategory(index){
     showToast(`Can't remove "${name}" — still used by ${usage.tickets} ticket(s), ${usage.agents} agent(s), ${usage.rules} routing rule(s), and ${usage.kb} KB article(s). Reassign or remove those first.`);
     return;
   }
-  if(!confirm(`Remove category "${name}"? This can't be undone.`)) return;
-  DB.categories = DB.categories.filter((c,i)=>i!==index);
-  await skSet('categories', DB.categories);
-  showToast('Category removed.');
-  await pushAudit(null, 'Category removed', `"${name}" was removed by ${S.currentUser.name}.`);
-  await notifyRoles(['admin','superadmin'], {type:'system_change', title:'Category removed', body:`"${name}" was removed by ${S.currentUser.name}.`});
-  render();
+  openConfirm(`Remove category "${name}"? This can't be undone.`, async () => {
+    DB.categories = DB.categories.filter((c,i)=>i!==index);
+    await skSet('categories', DB.categories);
+    showToast('Category removed.');
+    await pushAudit(null, 'Category removed', `"${name}" was removed by ${S.currentUser.name}.`);
+    await notifyRoles(['admin','superadmin'], {type:'system_change', title:'Category removed', body:`"${name}" was removed by ${S.currentUser.name}.`});
+    render();
+  }, {title:'Remove category', confirmLabel:'Remove'});
 }
 function openRenameCategoryModal(index){
   const name = DB.categories[index];

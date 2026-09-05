@@ -61,7 +61,7 @@ async function seedIfNeeded(){
   t1.ticketNumber = 1041;
   T.push(t1);
   M.push({id:uid('m'), ticketId:t1.id, authorId:'u_client1', body:'Nobody on our team can connect to the VPN since about 9am. This is blocking a client deploy — can someone look ASAP?', kind:'public', createdAt:t1.createdAt, attachments:[]});
-  A.push({id:uid('a'), ticketId:t1.id, actor:'Maria Cruz', action:'Ticket created', detail:'Priority: Critical', timestamp:t1.createdAt});
+  A.push({id:uid('a'), ticketId:t1.id, actor:'Client John', action:'Ticket created', detail:'Priority: Critical', timestamp:t1.createdAt});
 
   // Ticket 2: In Progress, Networking, assigned to Jordan
   let t2 = mkTicket({subject:'Wi-Fi drops every afternoon on 3rd floor', category:'Networking', priority:'High', urgency:'High', impact:'Medium',
@@ -71,9 +71,9 @@ async function seedIfNeeded(){
   M.push({id:uid('m'), ticketId:t2.id, authorId:'u_client2', body:'Around 2-3pm every day our Wi-Fi becomes unusable. Restarting the router doesn\'t help for long.', kind:'public', createdAt:t2.createdAt, attachments:[]});
   M.push({id:uid('m'), ticketId:t2.id, authorId:'u_agent1', body:'Checked the AP logs — channel congestion from a neighboring network at that time of day. Testing a channel switch now.', kind:'internal', createdAt:t0 - 3*hr, attachments:[]});
   M.push({id:uid('m'), ticketId:t2.id, authorId:'u_agent1', body:'Thanks for flagging — I found likely interference on our current Wi-Fi channel. Switching channels this afternoon, will confirm once done.', kind:'public', createdAt:t0 - 2*hr, attachments:[]});
-  A.push({id:uid('a'), ticketId:t2.id, actor:'Diego Ramirez', action:'Ticket created', detail:'Priority: High', timestamp:t2.createdAt});
-  A.push({id:uid('a'), ticketId:t2.id, actor:'System', action:'Auto-assigned', detail:'Routed to Jordan Lee (Networking)', timestamp:t2.createdAt+min});
-  A.push({id:uid('a'), ticketId:t2.id, actor:'Jordan Lee', action:'Status changed', detail:'Open → In Progress', timestamp:t0 - 3*hr});
+  A.push({id:uid('a'), ticketId:t2.id, actor:'Client Sarah', action:'Ticket created', detail:'Priority: High', timestamp:t2.createdAt});
+  A.push({id:uid('a'), ticketId:t2.id, actor:'System', action:'Auto-assigned', detail:'Routed to Agent Alice (Networking)', timestamp:t2.createdAt+min});
+  A.push({id:uid('a'), ticketId:t2.id, actor:'Agent Alice', action:'Status changed', detail:'Open → In Progress', timestamp:t0 - 3*hr});
 
   // Ticket 3: Pending on client
   let t3 = mkTicket({subject:'Laptop fan making loud grinding noise', category:'Hardware', priority:'Normal', urgency:'Medium', impact:'Low',
@@ -82,9 +82,9 @@ async function seedIfNeeded(){
   T.push(t3);
   M.push({id:uid('m'), ticketId:t3.id, authorId:'u_client1', body:'My laptop fan has been very loud and grinding for the past two days.', kind:'public', createdAt:t3.createdAt, attachments:[]});
   M.push({id:uid('m'), ticketId:t3.id, authorId:'u_agent2', body:'Could you confirm the asset tag on the bottom of the laptop, and whether it also feels hot near the left vent?', kind:'public', createdAt:t0 - day, attachments:[]});
-  A.push({id:uid('a'), ticketId:t3.id, actor:'Maria Cruz', action:'Ticket created', detail:'Priority: Normal', timestamp:t3.createdAt});
-  A.push({id:uid('a'), ticketId:t3.id, actor:'System', action:'Auto-assigned', detail:'Routed to Sam Patel (Hardware)', timestamp:t3.createdAt+min});
-  A.push({id:uid('a'), ticketId:t3.id, actor:'Sam Patel', action:'Status changed', detail:'Open → Pending', timestamp:t0 - day});
+  A.push({id:uid('a'), ticketId:t3.id, actor:'Client John', action:'Ticket created', detail:'Priority: Normal', timestamp:t3.createdAt});
+  A.push({id:uid('a'), ticketId:t3.id, actor:'System', action:'Auto-assigned', detail:'Routed to Agent Bob (Hardware)', timestamp:t3.createdAt+min});
+  A.push({id:uid('a'), ticketId:t3.id, actor:'Agent Bob', action:'Status changed', detail:'Open → Pending', timestamp:t0 - day});
 
   // Ticket 4: Resolved, awaiting auto-close
   let t4 = mkTicket({subject:'Need Adobe Acrobat Pro license', category:'Software', priority:'Low', urgency:'Low', impact:'Low',
@@ -94,8 +94,8 @@ async function seedIfNeeded(){
   T.push(t4);
   M.push({id:uid('m'), ticketId:t4.id, authorId:'u_client2', body:'Need Acrobat Pro for a client contract review, manager (approved over email) is fine with it.', kind:'public', createdAt:t4.createdAt, attachments:[]});
   M.push({id:uid('m'), ticketId:t4.id, authorId:'u_agent2', body:'License assigned and activation email sent — let me know if it doesn\'t show up within the hour.', kind:'public', createdAt:t0 - 2*day, attachments:[]});
-  A.push({id:uid('a'), ticketId:t4.id, actor:'Diego Ramirez', action:'Ticket created', detail:'Priority: Low', timestamp:t4.createdAt});
-  A.push({id:uid('a'), ticketId:t4.id, actor:'Sam Patel', action:'Status changed', detail:'In Progress → Resolved', timestamp:t0 - 2*day});
+  A.push({id:uid('a'), ticketId:t4.id, actor:'Client Sarah', action:'Ticket created', detail:'Priority: Low', timestamp:t4.createdAt});
+  A.push({id:uid('a'), ticketId:t4.id, actor:'Agent Bob', action:'Status changed', detail:'In Progress → Resolved', timestamp:t0 - 2*day});
 
   // Ticket 5: Closed, historical
   let t5 = mkTicket({subject:'Password reset for shared drive', category:'Account & Access', priority:'Normal', urgency:'Medium', impact:'Low',
@@ -104,7 +104,7 @@ async function seedIfNeeded(){
   T.push(t5);
   M.push({id:uid('m'), ticketId:t5.id, authorId:'u_client1', body:'Locked out of the shared drive, keep getting an auth error.', kind:'public', createdAt:t5.createdAt, attachments:[]});
   M.push({id:uid('m'), ticketId:t5.id, authorId:'u_agent2', body:'Reset the drive credential cache on our end — should work now on next login.', kind:'public', createdAt:t0 - 9*day, attachments:[]});
-  A.push({id:uid('a'), ticketId:t5.id, actor:'Sam Patel', action:'Status changed', detail:'In Progress → Resolved', timestamp:t0 - 9*day});
+  A.push({id:uid('a'), ticketId:t5.id, actor:'Agent Bob', action:'Status changed', detail:'In Progress → Resolved', timestamp:t0 - 9*day});
   A.push({id:uid('a'), ticketId:t5.id, actor:'System', action:'Auto-closed', detail:'No client response within 5 days of resolution', timestamp:t0 - 7*day});
 
   DB.tickets = T;

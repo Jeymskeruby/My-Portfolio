@@ -65,16 +65,16 @@ async function removeTeamMember(teamId, userId){
 async function disbandTeam(teamId){
   const team = DB.teams.find(x=>x.id===teamId);
   if(!team) return;
-  if(!confirm(`Disband ${team.name}? Its leader and members will become unassigned — nobody is deleted.`)) return;
-  DB.users.forEach(u=>{ if(u.team===team.name) u.team=''; });
-  DB.teams = DB.teams.filter(x=>x.id!==teamId);
-  await skSet('users', DB.users);
-  await skSet('teams', DB.teams);
-  closeModal();
-  showToast('Team disbanded.');
-  await pushAudit(null, 'Team disbanded', `${S.currentUser.name} disbanded ${team.name}.`);
-  await notifyRoles(['admin','superadmin'], {type:'system_change', title:`Team disbanded: ${team.name}`, body:`${S.currentUser.name} disbanded ${team.name}.`});
-  render();
+  openConfirm(`Disband ${team.name}? Its leader and members will become unassigned — nobody is deleted.`, async () => {
+    DB.users.forEach(u=>{ if(u.team===team.name) u.team=''; });
+    DB.teams = DB.teams.filter(x=>x.id!==teamId);
+    await skSet('users', DB.users);
+    await skSet('teams', DB.teams);
+    showToast('Team disbanded.');
+    await pushAudit(null, 'Team disbanded', `${S.currentUser.name} disbanded ${team.name}.`);
+    await notifyRoles(['admin','superadmin'], {type:'system_change', title:`Team disbanded: ${team.name}`, body:`${S.currentUser.name} disbanded ${team.name}.`});
+    render();
+  }, {title:'Disband team', confirmLabel:'Disband'});
 }
 function openCreateTeamModal(){
   openModal(`

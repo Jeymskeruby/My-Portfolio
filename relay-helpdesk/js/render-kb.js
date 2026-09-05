@@ -1,7 +1,10 @@
 /* ============================= KB VIEW ============================= */
+// Strips punctuation/whitespace so a query like "wifi" matches "Wi-Fi" —
+// plain toLowerCase().includes() treated those as different strings.
+function kbNormalize(s){ return (s||'').toLowerCase().replace(/[^a-z0-9]/g, ''); }
 function renderKB(ctx){
-  const q = S.kbSearch.toLowerCase();
-  const arts = DB.kb_articles.filter(a=> a.title.toLowerCase().includes(q) || a.body.toLowerCase().includes(q));
+  const q = kbNormalize(S.kbSearch);
+  const arts = DB.kb_articles.filter(a=> kbNormalize(a.title).includes(q) || kbNormalize(a.body).includes(q));
   const active = S.activeKbId ? DB.kb_articles.find(a=>a.id===S.activeKbId) : null;
   return `
   <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap;">
@@ -39,8 +42,8 @@ function renderKbListInner(arts, active, ctx){
 }
 function renderKbList(){
   const ctx = S.view.split('-')[0];
-  const q = S.kbSearch.toLowerCase();
-  const arts = DB.kb_articles.filter(a=> a.title.toLowerCase().includes(q) || a.body.toLowerCase().includes(q));
+  const q = kbNormalize(S.kbSearch);
+  const arts = DB.kb_articles.filter(a=> kbNormalize(a.title).includes(q) || kbNormalize(a.body).includes(q));
   const active = S.activeKbId ? DB.kb_articles.find(a=>a.id===S.activeKbId) : null;
   const el = document.getElementById('kbGrid');
   if(el) el.innerHTML = renderKbListInner(arts, active, ctx);

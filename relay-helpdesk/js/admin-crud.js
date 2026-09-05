@@ -154,13 +154,16 @@ async function addRoutingRule(){
 async function removeRoutingRule(id){
   const rule = DB.routing_rules.find(r=>r.id===id);
   const agent = rule ? getUser(rule.assigneeId) : null;
-  if(rule && !confirm(`Remove ${agent?agent.name:'this agent'} as a ${rule.category} routing rule agent?`)) return;
-  DB.routing_rules = DB.routing_rules.filter(r=>r.id!==id);
-  await skSet('routing_rules', DB.routing_rules);
-  if(rule){
-    await notifyRoles(['admin','superadmin'], {type:'system_change', title:'Routing rule removed', body:`${S.currentUser.name} removed ${agent?agent.name:'an agent'} as a ${rule.category} routing rule.`});
-  }
-  render();
+  const doRemove = async () => {
+    DB.routing_rules = DB.routing_rules.filter(r=>r.id!==id);
+    await skSet('routing_rules', DB.routing_rules);
+    if(rule){
+      await notifyRoles(['admin','superadmin'], {type:'system_change', title:'Routing rule removed', body:`${S.currentUser.name} removed ${agent?agent.name:'an agent'} as a ${rule.category} routing rule.`});
+    }
+    render();
+  };
+  if(rule) openConfirm(`Remove ${agent?agent.name:'this agent'} as a ${rule.category} routing rule agent?`, doRemove, {title:'Remove routing rule', confirmLabel:'Remove'});
+  else await doRemove();
 }
 async function addCanned(){
   const title = document.getElementById('cr-title').value.trim();
@@ -174,11 +177,14 @@ async function addCanned(){
 }
 async function removeCanned(id){
   const c = DB.canned_responses.find(x=>x.id===id);
-  if(c && !confirm(`Remove the canned response "${c.title}"?`)) return;
-  DB.canned_responses = DB.canned_responses.filter(c=>c.id!==id);
-  await skSet('canned_responses', DB.canned_responses);
-  if(c) await notifyRoles(['admin','superadmin'], {type:'system_change', title:'Canned response removed', body:`${S.currentUser.name} removed "${c.title}".`});
-  render();
+  const doRemove = async () => {
+    DB.canned_responses = DB.canned_responses.filter(c=>c.id!==id);
+    await skSet('canned_responses', DB.canned_responses);
+    if(c) await notifyRoles(['admin','superadmin'], {type:'system_change', title:'Canned response removed', body:`${S.currentUser.name} removed "${c.title}".`});
+    render();
+  };
+  if(c) openConfirm(`Remove the canned response "${c.title}"?`, doRemove, {title:'Remove canned response', confirmLabel:'Remove'});
+  else await doRemove();
 }
 function insertCanned(id){
   const c = DB.canned_responses.find(x=>x.id===id);

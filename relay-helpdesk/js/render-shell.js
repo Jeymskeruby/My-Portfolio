@@ -75,7 +75,7 @@ function pageTitleFor(view){
 }
 
 async function render(){
-  if(!S.currentUser){ root().innerHTML = renderLogin() + `<div id="toastHolder">${toastHtml()}</div>`; return; }
+  if(!S.currentUser){ root().innerHTML = renderLogin() + `<div id="modalHolder"></div><div id="toastHolder">${toastHtml()}</div>`; return; }
   const role = S.currentUser.role;
   const items = navItemsFor(role);
   const [title, sub] = pageTitleFor(S.view);

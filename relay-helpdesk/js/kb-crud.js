@@ -53,12 +53,13 @@ async function saveKbArticle(id){
 }
 async function removeKbArticle(id){
   const a = DB.kb_articles.find(x=>x.id===id);
-  if(!confirm('Remove this FAQ article? This can\'t be undone.')) return;
-  DB.kb_articles = DB.kb_articles.filter(x=>x.id!==id);
-  if(S.activeKbId===id) S.activeKbId = null;
-  await skSet('kb_articles', DB.kb_articles);
-  showToast('Article removed.');
-  if(a) await notifyRoles(['admin','superadmin'], {type:'system_change', title:'FAQ article removed', body:`${S.currentUser.name} removed "${a.title}".`});
-  render();
+  openConfirm('Remove this FAQ article? This can\'t be undone.', async () => {
+    DB.kb_articles = DB.kb_articles.filter(x=>x.id!==id);
+    if(S.activeKbId===id) S.activeKbId = null;
+    await skSet('kb_articles', DB.kb_articles);
+    showToast('Article removed.');
+    if(a) await notifyRoles(['admin','superadmin'], {type:'system_change', title:'FAQ article removed', body:`${S.currentUser.name} removed "${a.title}".`});
+    render();
+  }, {title:'Remove article', confirmLabel:'Remove'});
 }
 

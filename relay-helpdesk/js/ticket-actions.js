@@ -84,6 +84,9 @@ async function createTicket(fromEmail){
   };
   DB.tickets = [...DB.tickets, t];
   await saveTickets();
+  const openingMsg = {id:uid('m'), ticketId:t.id, authorId:clientId, body:description, kind:'public', createdAt:t.createdAt, attachments: attachments||[]};
+  DB.messages = [...DB.messages, openingMsg];
+  await saveMessages();
   await pushAudit(t.id, 'Ticket created', fromEmail ? 'Created via email intake' : 'Created via client portal');
   if(assigneeId){
     await pushAuditSystem(t.id, 'Auto-assigned', routeNote);

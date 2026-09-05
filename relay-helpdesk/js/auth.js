@@ -4,10 +4,11 @@
 // because DB.meta.seeded is gone. Wired to the demo banner's "Reset Demo
 // Data" button via window.resetRelayDemoData.
 async function resetDemo(){
-  if(!confirm('This will delete all demo data and reset the demo to its starting state. Continue?')){ return; }
-  try{ localStorage.removeItem(DB_KEY); }catch(e){}
-  __memStore = null;             // drop any private-mode in-memory DB too
-  location.reload();             // boot() -> loadDB() (empty) -> seedIfNeeded() reseeds
+  openConfirm('This will delete all demo data and reset the demo to its starting state. Continue?', () => {
+    try{ localStorage.removeItem(DB_KEY); }catch(e){}
+    __memStore = null;           // drop any private-mode in-memory DB too
+    location.reload();           // boot() -> loadDB() (empty) -> seedIfNeeded() reseeds
+  }, {title:'Reset demo data', confirmLabel:'Reset data'});
 }
 window.resetRelayDemoData = resetDemo;
 
