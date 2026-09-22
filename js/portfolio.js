@@ -9,6 +9,23 @@
   var y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
 
+  /* ---- theme switch (Light / Dark / System) ---- */
+  var THEME_KEY = 'portfolio-theme';
+  var themeBtns = Array.prototype.slice.call(document.querySelectorAll('.theme-switch-btn'));
+  if (themeBtns.length) {
+    var applyTheme = function (theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      themeBtns.forEach(function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-theme-btn') === theme ? 'true' : 'false');
+      });
+      try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+    };
+    themeBtns.forEach(function (b) {
+      b.addEventListener('click', function () { applyTheme(b.getAttribute('data-theme-btn')); });
+    });
+    applyTheme(document.documentElement.getAttribute('data-theme') || 'system');
+  }
+
   /* ---- role switch (Web Developer / Virtual Assistant) ---- */
   var ROLE_KEY = 'portfolio-role';
   var roleBtns = Array.prototype.slice.call(document.querySelectorAll('.role-switch-btn'));
