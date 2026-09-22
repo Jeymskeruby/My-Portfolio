@@ -36,6 +36,10 @@
 
   <!-- ================= HERO ================= -->
   <header class="section container hero" id="top">
+    <div class="role-switch" data-reveal>
+      <button type="button" class="role-switch-btn" data-role-btn="webdev" aria-pressed="true">Web Developer</button>
+      <button type="button" class="role-switch-btn" data-role-btn="va" aria-pressed="false">Virtual Assistant</button>
+    </div>
     <div data-reveal>
       <!-- PLACEHOLDER: location, e.g. "Iloilo, Philippines" -->
       <p class="eyebrow">Full-stack developer · <!-- PLACEHOLDER: location --></p>
@@ -86,72 +90,107 @@
   <!-- ================= CAPABILITIES ================= -->
   <section class="section" id="capabilities">
     <div class="container">
-      <div data-reveal>
+      <div data-reveal data-role="webdev">
         <p class="eyebrow">Capabilities</p>
         <h2>What I can do — and where I've done it.</h2>
         <p class="lead">Every capability below is tagged with the project(s) that demonstrate it.</p>
       </div>
+      <div data-reveal data-role="va">
+        <p class="eyebrow">Capabilities</p>
+        <h2>What I can automate — and where I've done it.</h2>
+        <p class="lead">Every capability below is tagged with the automation project that demonstrates it.</p>
+      </div>
 
       <div class="caps" data-reveal>
 
-        <div class="cap">
+        <div class="cap" data-role="webdev">
           <h3>Role-based access &amp; multi-role UX</h3>
           <p>5-, 4-, and 2-role dashboards with one-click role login, per-role navigation, and server-side-style guards.</p>
           <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span><span class="tag tag--guinayang">Guinayang</span></div>
         </div>
 
-        <div class="cap">
+        <div class="cap" data-role="webdev">
           <h3>Domain workflow engines</h3>
           <p>ITSM urgency × impact priority matrix, capacity-aware round-robin routing, automatic SLA-breach escalation, and per-agent time tracking.</p>
           <div class="tags"><span class="tag tag--relay">Relay</span></div>
         </div>
 
-        <div class="cap">
+        <div class="cap" data-role="webdev">
           <h3>Matching &amp; approval flows</h3>
           <p>Skill-based volunteer ↔ event matching, join-request review, organizer approval, and an admin moderation queue.</p>
           <div class="tags"><span class="tag tag--iserve">iServe</span></div>
         </div>
 
-        <div class="cap">
+        <div class="cap" data-role="webdev">
           <h3>Case &amp; incident management</h3>
           <p>Guidance-case tracking, incident-report intake from a companion mobile app, and a status lifecycle (unseen → on-process → resolved).</p>
           <div class="tags"><span class="tag tag--guinayang">Guinayang</span></div>
         </div>
 
-        <div class="cap">
+        <div class="cap" data-role="webdev">
           <h3>Data modeling &amp; persistence</h3>
           <p>Versioned localStorage DB with an async API and in-memory fallback; a mock Firestore query engine (<code>where/orderBy/limit</code>, <code>onSnapshot</code>); SQLite schema with a deterministic seeder.</p>
           <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span><span class="tag tag--guinayang">Guinayang</span></div>
         </div>
 
-        <div class="cap">
+        <div class="cap" data-role="webdev">
           <h3>Realtime &amp; cross-role sync</h3>
           <p>A ~6-second poll that propagates one role's changes to another; Firestore <code>onSnapshot</code> listeners; in-app notifications.</p>
           <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span></div>
         </div>
 
-        <div class="cap">
+        <div class="cap" data-role="webdev">
           <h3>Reporting &amp; exports</h3>
           <p>Append-only audit log with CSV/Excel export; Word &amp; Excel document generation from user-managed templates.</p>
           <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--guinayang">Guinayang</span></div>
         </div>
 
-        <div class="cap">
+        <div class="cap" data-role="webdev">
           <h3>Frontend architecture</h3>
           <p>Buildless multi-file vanilla JS (31 ordered modules, one re-rendered <code>#app</code>); a Web-Components + Alpine multi-page app; WinForms with a centralized theme module.</p>
           <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span><span class="tag tag--guinayang">Guinayang</span></div>
         </div>
 
-        <div class="cap">
+        <div class="cap" data-role="webdev">
           <h3>Design systems &amp; UI</h3>
           <p>Token-based CSS design system; Tailwind + a shared component library; a <code>UiTheme</code> palette/typography module for desktop.</p>
           <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span><span class="tag tag--guinayang">Guinayang</span></div>
         </div>
 
-        <div class="cap">
+        <div class="cap" data-role="webdev">
           <h3>Production → public demo conversion</h3>
           <p>Laravel&nbsp;13 + Filament + Postgres + Reverb / Firebase / .NET&nbsp;8 + SQLite apps reduced to browser-run demos: fictional deterministic data, zero credentials, one-click reset.</p>
           <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span><span class="tag tag--guinayang">Guinayang</span></div>
+        </div>
+
+        <div class="cap" data-role="va">
+          <h3>Trigger-based workflow automation</h3>
+          <p>Multi-step Zapier automations triggered by new file uploads, webhook form submissions, and CRM status changes, using Filters and Paths to branch logic by condition.</p>
+          <div class="tags"><span class="tag tag--audioblog">Audio-to-Blog</span><span class="tag tag--crm">CRM Pipeline</span><span class="tag tag--leadgen">Lead Routing</span></div>
+        </div>
+
+        <div class="cap" data-role="va">
+          <h3>AI-assisted content &amp; data processing</h3>
+          <p>AI by Zapier for audio transcription, dual blog-post generation, and lead-data analysis and enrichment.</p>
+          <div class="tags"><span class="tag tag--audioblog">Audio-to-Blog</span><span class="tag tag--leadgen">Lead Routing</span></div>
+        </div>
+
+        <div class="cap" data-role="va">
+          <h3>CRM lifecycle automation</h3>
+          <p>A 5-branch Asana status pipeline: lead-folder and subtask creation, timed follow-up sequences with response checks, AI-drafted onboarding and thank-you emails.</p>
+          <div class="tags"><span class="tag tag--crm">CRM Pipeline</span></div>
+        </div>
+
+        <div class="cap" data-role="va">
+          <h3>Lead capture, enrichment &amp; routing</h3>
+          <p>Webhook intake → Apollo company enrichment → AI qualification → priority-based routing to a spreadsheet with Slack/Gmail alerts.</p>
+          <div class="tags"><span class="tag tag--leadgen">Lead Routing</span></div>
+        </div>
+
+        <div class="cap" data-role="va">
+          <h3>Cross-app, no-code integration</h3>
+          <p>Google Drive, Gmail, Asana, Slack, Google Sheets, and Apollo wired together entirely in Zapier, no custom backend.</p>
+          <div class="tags"><span class="tag tag--audioblog">Audio-to-Blog</span><span class="tag tag--crm">CRM Pipeline</span><span class="tag tag--leadgen">Lead Routing</span></div>
         </div>
 
       </div>
@@ -161,15 +200,19 @@
   <!-- ================= PROJECTS ================= -->
   <section class="section" id="projects">
     <div class="container">
-      <div data-reveal>
+      <div data-reveal data-role="webdev">
         <p class="eyebrow">Projects</p>
         <h2>Three systems. Three stacks. One approach.</h2>
+      </div>
+      <div data-reveal data-role="va">
+        <p class="eyebrow">Projects</p>
+        <h2>Three automations. Three business problems. One toolkit: Zapier.</h2>
       </div>
 
       <div class="grid">
 
         <!-- Relay Helpdesk -->
-        <article class="card card--relay" data-reveal>
+        <article class="card card--relay" data-reveal data-role="webdev">
           <div class="card-thumb card-thumb--placeholder">assets/img/relay-thumb.png</div>
           <div class="card-body">
             <h3>Relay Helpdesk</h3>
@@ -193,7 +236,7 @@
         </article>
 
         <!-- iServe -->
-        <article class="card card--iserve" data-reveal>
+        <article class="card card--iserve" data-reveal data-role="webdev">
           <div class="card-thumb card-thumb--placeholder">assets/img/iserve-thumb.png</div>
           <div class="card-body">
             <h3>iServe</h3>
@@ -216,7 +259,7 @@
         </article>
 
         <!-- Guinayang GTMS -->
-        <article class="card card--guinayang" data-reveal>
+        <article class="card card--guinayang" data-reveal data-role="webdev">
           <div class="card-thumb card-thumb--placeholder">assets/guinayang/screens/02-dashboard.png</div>
           <div class="card-body">
             <h3>Guinayang GTMS <span class="card-badge">Desktop app — video + screenshots</span></h3>
@@ -236,6 +279,75 @@
               <a class="btn btn-ghost" href="projects/guinayang.html#gallery">Screenshots</a>
               <!-- PLACEHOLDER: enable once assets/guinayang/guinayang-demo-win-x64.zip exists (Phase 2) -->
               <a class="btn btn-ghost" href="projects/guinayang.html#download" aria-disabled="true" title="Windows demo build coming soon">Download (Windows x64)</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Audio-to-Blog Social Publisher -->
+        <article class="card card--audioblog" data-reveal data-role="va">
+          <div class="card-thumb card-thumb--placeholder">assets/img/auto-audioblog-thumb.png</div>
+          <div class="card-body">
+            <h3>Audio-to-Blog Social Publisher</h3>
+            <p class="desc">
+              A Zapier automation that turns a dropped-in mp3 into published social
+              content: detects a new upload in a Google Drive folder, filters for
+              audio files, transcribes with AI, then generates two distinct blog
+              posts (title + content pairs). Paths splits the two variants so each
+              one is auto-posted to LinkedIn, Facebook, or Instagram.
+            </p>
+            <div class="tags">
+              <span class="tag">Zapier</span><span class="tag">AI by Zapier</span>
+              <span class="tag">Paths</span><span class="tag">Social publishing</span>
+            </div>
+            <div class="btn-row">
+              <a class="btn btn-accent" href="projects/auto-audioblog.html">View workflow breakdown</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Asana CRM Lead Pipeline -->
+        <article class="card card--crm" data-reveal data-role="va">
+          <div class="card-thumb card-thumb--placeholder">assets/img/auto-crm-thumb.png</div>
+          <div class="card-body">
+            <h3>Asana CRM Lead Pipeline</h3>
+            <p class="desc">
+              A status-driven CRM automation in Asana: a task's Status field fans
+              out via Paths into five lifecycle workflows — lead-folder and
+              subtask creation, timed follow-up sequences with response checks,
+              a quote follow-up sequence, an AI-drafted onboarding email with
+              invoice attachment, and an AI-drafted thank-you email on close.
+            </p>
+            <div class="tags">
+              <span class="tag">Zapier</span><span class="tag">Asana</span>
+              <span class="tag">Gmail</span><span class="tag">AI by Zapier</span>
+              <span class="tag">Delay / Filter logic</span>
+            </div>
+            <div class="btn-row">
+              <a class="btn btn-accent" href="projects/auto-crm.html">View workflow breakdown</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Lead Enrichment & Routing -->
+        <article class="card card--leadgen" data-reveal data-role="va">
+          <div class="card-thumb card-thumb--placeholder">assets/img/auto-leadgen-thumb.png</div>
+          <div class="card-body">
+            <h3>Lead Enrichment &amp; Routing</h3>
+            <p class="desc">
+              A webhook-driven lead-qualification pipeline: captures form
+              submissions, parses the lead's email domain, enriches the company
+              via Apollo, then uses AI to analyze company size and founding
+              year. Paths route High Priority leads and everything else into
+              parallel flows that log to a spreadsheet and notify the team on
+              Slack/Gmail.
+            </p>
+            <div class="tags">
+              <span class="tag">Zapier</span><span class="tag">Webhooks</span>
+              <span class="tag">Apollo</span><span class="tag">AI by Zapier</span>
+              <span class="tag">Google Sheets</span><span class="tag">Slack</span>
+            </div>
+            <div class="btn-row">
+              <a class="btn btn-accent" href="projects/auto-leadgen.html">View workflow breakdown</a>
             </div>
           </div>
         </article>

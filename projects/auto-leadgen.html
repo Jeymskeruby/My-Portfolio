@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lead Enrichment &amp; Routing — Case Study — James Kerby C. Sarmiento</title>
+<meta name="description" content="A Zapier automation that enriches inbound leads via Apollo, qualifies them with AI, and routes high-priority leads straight to the team.">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/portfolio.css">
+<style>:root{ --accent: var(--auto-leadgen); }</style>
+<script src="../js/portfolio.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="../index.html"><span class="monogram">JKS</span> James Kerby&nbsp;C. Sarmiento</a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#capabilities">Capabilities</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="casestudy-band">
+    <div class="container">
+      <p class="eyebrow">Case study · Zapier automation</p>
+      <h1>Lead Enrichment &amp; Routing</h1>
+      <p class="lead">Every inbound lead is automatically enriched with company data, AI-qualified, logged, and routed to the right internal notification — no manual research required.</p>
+      <div class="chip-row">
+        <span class="chip">Zapier</span><span class="chip">Webhooks</span>
+        <span class="chip">Apollo</span><span class="chip">AI by Zapier</span>
+        <span class="chip">Google Sheets</span><span class="chip">Slack</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Overview</h2>
+      <p>
+        Lead forms capture only the basics (name, email, company, source) —
+        but a sales team needs company context to know which leads to chase
+        first. This automation takes a raw form submission, enriches it with
+        real company data, uses AI to judge whether it's a high-priority
+        lead, and gets it logged and in front of the team within seconds of
+        submission.
+      </p>
+
+      <h3>How it works</h3>
+      <ol>
+        <li><strong>Trigger</strong> — a Webhook receives any lead-gathering form submission: first name, last name, email, company name, company size, website, lead source.</li>
+        <li><strong>Format</strong> — a Formatter step extracts the domain from the lead's email address.</li>
+        <li><strong>Enrich</strong> — a Webhook (GET) call to Apollo looks up the company by domain and pulls back company data.</li>
+        <li><strong>Analyze</strong> — AI by Zapier reads the Apollo data and extracts the company's real size and founding year.</li>
+        <li><strong>Paths</strong> — the workflow branches into High Priority and Fallback.</li>
+        <li>
+          <strong>High Priority path</strong> — condition: company size and founding year both qualify the lead as high priority.
+          <ul>
+            <li>Google Sheets (or another database) logs the lead.</li>
+            <li>An internal notification goes out via Slack/Gmail.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Fallback path</strong> — every lead that doesn't qualify as high priority.
+          <ul>
+            <li>Google Sheets (or another database) logs the lead.</li>
+            <li>An internal notification goes out via Slack/Gmail.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h3>Why it's built this way</h3>
+      <ul>
+        <li>Enriching before qualifying means the priority decision is based on real company data, not just whatever the lead typed into the form.</li>
+        <li>Every lead is logged and surfaced internally regardless of priority — the Paths branch changes urgency, not visibility, so nothing silently falls through.</li>
+        <li>A Webhook trigger keeps the automation form-agnostic — any form or landing page that can POST to it plugs straight into the pipeline.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Try it</h2>
+      <div class="btn-row">
+        <a class="btn btn-ghost" href="../index.html#projects">Back to projects</a>
+      </div>
+      <div class="note note--plain">
+        <strong>Note on this automation.</strong> This runs live inside a private
+        Zapier account connected to a real Apollo, Google Sheets, and
+        Slack/Gmail setup, so there's no public demo or repository to link —
+        the steps above are the exact workflow as built.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© <span id="year">2026</span> James Kerby C. Sarmiento</span>
+    <span><a href="../index.html">Back to portfolio</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asana CRM Lead Pipeline — Case Study — James Kerby C. Sarmiento</title>
+<meta name="description" content="A Zapier automation that turns an Asana task's status into a full CRM lifecycle: onboarding folders, timed follow-ups, quotes, and AI-drafted emails.">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/portfolio.css">
+<style>:root{ --accent: var(--auto-crm); }</style>
+<script src="../js/portfolio.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="../index.html"><span class="monogram">JKS</span> James Kerby&nbsp;C. Sarmiento</a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#capabilities">Capabilities</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="casestudy-band">
+    <div class="container">
+      <p class="eyebrow">Case study · Zapier automation</p>
+      <h1>Asana CRM Lead Pipeline</h1>
+      <p class="lead">A single Custom Field on an Asana task drives an entire client lifecycle — onboarding, follow-ups, quoting, approval, and thank-you — with no manual email chasing.</p>
+      <div class="chip-row">
+        <span class="chip">Zapier</span><span class="chip">Asana</span>
+        <span class="chip">Gmail</span><span class="chip">Google Drive</span>
+        <span class="chip">AI by Zapier</span><span class="chip">Delay / Filter logic</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Overview</h2>
+      <p>
+        Asana is used as a lightweight CRM: each lead/client is a task, and a
+        <code>Status</code> custom field tracks where they are in the
+        pipeline. Instead of a team member manually acting on every status
+        change — creating folders, sending follow-ups, chasing quotes,
+        onboarding, and thanking clients — this automation watches for status
+        changes and runs the right sequence automatically, branching into one
+        of five paths.
+      </p>
+
+      <h3>How it works</h3>
+      <p><strong>Trigger:</strong> Asana "Update Task," filtered to changes on the <code>Status</code> custom field. Paths then split into five branches, one per status value.</p>
+      <ol>
+        <li>
+          <strong>Ready to Start</strong> — condition: Status exactly matches "Ready to Start."
+          <ul>
+            <li>Google Drive creates a lead folder, named after the Asana task name.</li>
+            <li>Asana creates a "Social Media Content" subtask under the main task.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>No Response</strong> — condition: Status exactly matches "No Response."
+          <ul>
+            <li>Gmail sends a follow-up email using the task's email data.</li>
+            <li>Delay 2 days.</li>
+            <li>Gmail "Find Email" checks whether the client replied.</li>
+            <li>Filter checks whether that condition is met.</li>
+            <li>Gmail sends a second follow-up email if the client still hasn't responded.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Quoted</strong> — condition: Status exactly matches "Quoted."
+          <ul>
+            <li>Gmail sends a price-quote email using the task's email data.</li>
+            <li>Delay 2 days.</li>
+            <li>Gmail "Find Email" checks whether the client replied to the quote.</li>
+            <li>Filter checks whether that condition is met.</li>
+            <li>Gmail sends a quote follow-up email if the client still hasn't responded.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Approved</strong> — condition: Status exactly matches "Approved."
+          <ul>
+            <li>AI by Zapier drafts an onboarding email tailored to the client.</li>
+            <li>Google Drive finds the client's invoice document.</li>
+            <li>Gmail sends the AI-drafted onboarding email with the invoice attached.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Paid and Closed</strong> — condition: Status exactly matches "Paid and Closed."
+          <ul>
+            <li>AI by Zapier drafts a thank-you email tailored to the client.</li>
+            <li>Gmail sends the thank-you email to the client.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h3>Why it's built this way</h3>
+      <ul>
+        <li>Driving everything off one Custom Field keeps the whole pipeline visible and editable from inside Asana — no separate system to check.</li>
+        <li>The Delay + "Find Email" + Filter pattern in the No Response and Quoted paths automates realistic follow-up cadences without ever double-emailing a client who already replied.</li>
+        <li>AI-drafted onboarding and thank-you emails stay tailored per client while removing the repetitive writing work at the two moments that matter most for tone.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Try it</h2>
+      <div class="btn-row">
+        <a class="btn btn-ghost" href="../index.html#projects">Back to projects</a>
+      </div>
+      <div class="note note--plain">
+        <strong>Note on this automation.</strong> This runs live inside a private
+        Zapier account connected to a real Asana workspace and Gmail account,
+        so there's no public demo or repository to link — the steps above are
+        the exact workflow as built.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© <span id="year">2026</span> James Kerby C. Sarmiento</span>
+    <span><a href="../index.html">Back to portfolio</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

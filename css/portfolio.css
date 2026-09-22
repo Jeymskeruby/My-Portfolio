@@ -20,6 +20,7 @@
   --relay-amber:#EFA23A;  --relay-teal:#1D8F81;
   --iserve-blue:#2563EB;
   --guinayang-red:#96161B; --guinayang-gold:#E2AA2D;
+  --auto-audioblog:#6D4AFF; --auto-crm:#1D8F81; --auto-leadgen:#D6336C;
 
   /* the site's own accent = relay amber */
   --accent: var(--relay-amber);
@@ -144,6 +145,26 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 12px);}
   display:grid;grid-template-columns:1.5fr 1fr;gap:48px;align-items:center;
 }
 .hero-cta{margin-top:26px;}
+
+/* ---------- role switch (Web Developer / Virtual Assistant) ---------- */
+.role-switch{
+  grid-column:1 / -1;
+  display:inline-flex;gap:2px;margin-bottom:28px;
+  padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--card);
+  width:max-content;
+}
+.role-switch-btn{
+  border:none;background:transparent;color:var(--text-soft);cursor:pointer;
+  font-family:var(--font-ui);font-size:13.5px;font-weight:600;
+  padding:8px 18px;border-radius:999px;white-space:nowrap;
+  transition:background .16s, color .16s;
+}
+.role-switch-btn:hover{color:var(--text);}
+.role-switch-btn[aria-pressed="true"][data-role-btn="webdev"]{background:var(--relay-amber);color:var(--ink-3);}
+.role-switch-btn[aria-pressed="true"][data-role-btn="va"]{background:var(--auto-audioblog);color:#fff;}
+
+/* elements tagged with a role that doesn't match the current selection */
+[data-role].is-hidden{display:none;}
 .hero-portrait{
   aspect-ratio:1/1;border-radius:16px;overflow:hidden;
   border:1px solid var(--line);background:var(--card);
@@ -186,6 +207,9 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 12px);}
 .tag--relay{color:var(--relay-amber);border-color:color-mix(in srgb,var(--relay-amber) 40%,var(--line));background:#FDF3E4;}
 .tag--iserve{color:var(--iserve-blue);border-color:color-mix(in srgb,var(--iserve-blue) 35%,var(--line));background:#EAF0FE;}
 .tag--guinayang{color:var(--guinayang-red);border-color:color-mix(in srgb,var(--guinayang-red) 35%,var(--line));background:#F7E9E9;}
+.tag--audioblog{color:var(--auto-audioblog);border-color:color-mix(in srgb,var(--auto-audioblog) 40%,var(--line));background:#EEE9FF;}
+.tag--crm{color:var(--auto-crm);border-color:color-mix(in srgb,var(--auto-crm) 35%,var(--line));background:#E4F5F2;}
+.tag--leadgen{color:var(--auto-leadgen);border-color:color-mix(in srgb,var(--auto-leadgen) 35%,var(--line));background:#FBE7EE;}
 
 /* ---------- project cards ---------- */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-top:28px;}
@@ -201,6 +225,9 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 12px);}
 .card--relay{--accent:var(--relay-amber);}
 .card--iserve{--accent:var(--iserve-blue);}
 .card--guinayang{--accent:var(--guinayang-red);}
+.card--audioblog{--accent:var(--auto-audioblog);}
+.card--crm{--accent:var(--auto-crm);}
+.card--leadgen{--accent:var(--auto-leadgen);}
 .card-thumb{aspect-ratio:16/10;background:var(--paper);border-bottom:1px solid var(--line);overflow:hidden;}
 .card-thumb img{width:100%;height:100%;object-fit:cover;}
 .card-thumb--placeholder{display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);color:var(--text-faint);font-size:12px;}

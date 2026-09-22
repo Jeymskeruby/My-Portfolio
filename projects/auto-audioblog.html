@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audio-to-Blog Social Publisher — Case Study — James Kerby C. Sarmiento</title>
+<meta name="description" content="A Zapier automation that transcribes an uploaded audio file, generates two AI blog posts, and auto-publishes each to social media.">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/portfolio.css">
+<style>:root{ --accent: var(--auto-audioblog); }</style>
+<script src="../js/portfolio.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="../index.html"><span class="monogram">JKS</span> James Kerby&nbsp;C. Sarmiento</a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#capabilities">Capabilities</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="casestudy-band">
+    <div class="container">
+      <p class="eyebrow">Case study · Zapier automation</p>
+      <h1>Audio-to-Blog Social Publisher</h1>
+      <p class="lead">Drop an audio file in a Google Drive folder and Zapier turns it into two ready-to-post blog articles, automatically published to social media — no manual writing or copy-pasting.</p>
+      <div class="chip-row">
+        <span class="chip">Zapier</span><span class="chip">Google Drive</span>
+        <span class="chip">AI by Zapier</span><span class="chip">Paths</span>
+        <span class="chip">Social publishing</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Overview</h2>
+      <p>
+        Content teams record audio (voice notes, interview snippets, quick
+        updates) and need it turned into publish-ready blog posts and social
+        copy — normally a manual transcription-and-writing job. This
+        automation removes that step entirely: dropping an mp3 into a
+        watched Google Drive folder is the only human action required. From
+        there, Zapier transcribes the audio, drafts two distinct blog-post
+        options with AI, and posts each one to social media on its own path.
+      </p>
+
+      <h3>How it works</h3>
+      <ol>
+        <li><strong>Trigger</strong> — Google Drive "Detect New File in Folder," polling the target directory every 2 minutes.</li>
+        <li><strong>Filter</strong> — only continues if the uploaded file has an <code>.mp3</code> extension.</li>
+        <li><strong>Transcribe</strong> — AI by Zapier converts the audio file to text.</li>
+        <li><strong>Generate</strong> — AI by Zapier drafts two separate blog posts from the transcript, producing four outputs: Title&nbsp;A, Content&nbsp;A, Title&nbsp;B, Content&nbsp;B.</li>
+        <li><strong>Paths</strong> — the workflow splits into two independent branches, one per blog variant.</li>
+        <li><strong>Path A</strong> — checks that Title&nbsp;A exists, then posts Title&nbsp;A + Content&nbsp;A to LinkedIn, Facebook, Instagram, or another connected social account.</li>
+        <li><strong>Path B</strong> — checks that Title&nbsp;B exists, then posts Title&nbsp;B + Content&nbsp;B to a social account, independently of Path A.</li>
+      </ol>
+
+      <h3>Why it's built this way</h3>
+      <ul>
+        <li>The mp3 filter keeps the automation safe to point at a shared folder — non-audio uploads are ignored rather than erroring out.</li>
+        <li>Generating <em>two</em> blog variants per recording gives the content team a choice, or lets both go out as separate posts, without any extra manual work.</li>
+        <li>Splitting into two Paths after generation means either branch can be edited, retargeted to a different platform, or disabled independently without touching the other.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose" data-reveal>
+      <h2>Try it</h2>
+      <div class="btn-row">
+        <a class="btn btn-ghost" href="../index.html#projects">Back to projects</a>
+      </div>
+      <div class="note note--plain">
+        <strong>Note on this automation.</strong> This runs live inside a private
+        Zapier account connected to real Google Drive, AI, and social-media
+        accounts, so there's no public demo or repository to link — the steps
+        above are the exact workflow as built.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© <span id="year">2026</span> James Kerby C. Sarmiento</span>
+    <span><a href="../index.html">Back to portfolio</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
