@@ -278,6 +278,11 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 12px);}
   margin-top:28px;border:1px solid var(--line);border-radius:var(--radius);
   overflow:hidden;background:var(--card);
 }
+/* Calendly's data-resize reports a ~2px height for this page, so size it here:
+   tall enough that its layouts don't scroll inside the frame. */
+.calendly-inline-widget{height:700px;}
+@media (max-width:1100px){.calendly-inline-widget{height:940px;}}
+@media (max-width:760px){.calendly-inline-widget{height:900px;}}
 /* Calendly's free plan ignores colour params, so dark mode inverts the iframe
    (hue-rotate keeps its blue accents blue). */
 .calendly-embed iframe{transition:filter .2s ease;}
