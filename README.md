@@ -1,7 +1,8 @@
 # Portfolio — James Kerby C. Sarmiento
 
 A buildless static portfolio. Hand-written HTML/CSS/JS, no bundler, no framework.
-The only external dependency of the portfolio shell is Google Fonts (IBM Plex).
+The only external dependencies of the portfolio shell are Google Fonts (IBM Plex)
+and the Calendly embed script (inline scheduling widget in Contact).
 
 It showcases two commissioned, multi-role dashboard systems — each rebuilt as a
 safe, self-contained public demo (mock/local backend, deterministic fictional
@@ -53,4 +54,6 @@ or a project sub-path — every internal link is relative.
 - **Phase 1 (done):** site shell, capabilities, five case studies, both live
   demos wired, deploy workflow. Personal content and media are `<!-- PLACEHOLDER -->`.
 - **Phase 2 (pending):** headshot, résumé, bio/headline/contact strings, LinkedIn;
-  demo thumbnails; favicon/OG image.
+  demo thumbnails; favicon/OG image; a real Calendly account/event — the
+  `data-url` in the Contact section's `.calendly-inline-widget` is currently
+  a `PLACEHOLDER` and needs to be swapped for the real event link.
