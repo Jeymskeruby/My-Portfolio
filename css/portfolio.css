@@ -305,7 +305,8 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 12px);}
   .cap{grid-template-columns:1fr;gap:10px;}
   .cap .tags{justify-content:flex-start;}
 }
-@media (max-width:720px){
+/* the full header (brand + theme switch + nav) needs ~930px plus scrollbar */
+@media (max-width:980px){
   .nav-toggle{display:flex;}
   .nav{
     position:absolute;top:var(--nav-h);left:0;right:0;
@@ -318,6 +319,8 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 12px);}
   .nav.open{display:flex;}
   .nav a{padding:12px;}
   .nav .btn{margin:6px 0 0;justify-content:center;}
+}
+@media (max-width:720px){
   .section{padding-block:56px;}
   .hero{padding-block:56px 44px;}
 }
