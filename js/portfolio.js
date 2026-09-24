@@ -26,30 +26,6 @@
     applyTheme(document.documentElement.getAttribute('data-theme') || 'system');
   }
 
-  /* ---- role switch (Web Developer / Virtual Assistant) ---- */
-  var ROLE_KEY = 'portfolio-role';
-  var roleBtns = Array.prototype.slice.call(document.querySelectorAll('.role-switch-btn'));
-  var roleItems = Array.prototype.slice.call(document.querySelectorAll('[data-role]'));
-  if (roleBtns.length) {
-    var applyRole = function (role) {
-      roleBtns.forEach(function (b) {
-        b.setAttribute('aria-pressed', b.getAttribute('data-role-btn') === role ? 'true' : 'false');
-      });
-      roleItems.forEach(function (el) {
-        var match = el.getAttribute('data-role') === role;
-        el.classList.toggle('is-hidden', !match);
-        if (match && el.hasAttribute('data-reveal')) el.classList.add('in');
-      });
-      try { localStorage.setItem(ROLE_KEY, role); } catch (e) {}
-    };
-    roleBtns.forEach(function (b) {
-      b.addEventListener('click', function () { applyRole(b.getAttribute('data-role-btn')); });
-    });
-    var savedRole;
-    try { savedRole = localStorage.getItem(ROLE_KEY); } catch (e) {}
-    applyRole(savedRole === 'va' ? 'va' : 'webdev');
-  }
-
   /* ---- mobile menu ---- */
   var toggle = document.querySelector('.nav-toggle');
   var nav = document.getElementById('nav');
