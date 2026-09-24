@@ -276,8 +276,16 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 12px);}
 /* ---------- calendly embed ---------- */
 .calendly-embed{
   margin-top:28px;border:1px solid var(--line);border-radius:var(--radius);
-  overflow:hidden;background:#fff;
+  overflow:hidden;background:var(--card);
 }
+/* Calendly's free plan ignores colour params, so dark mode inverts the iframe
+   (hue-rotate keeps its blue accents blue). */
+.calendly-embed iframe{transition:filter .2s ease;}
+:root[data-theme="dark"] .calendly-embed iframe{filter:invert(.9) hue-rotate(180deg);}
+@media (prefers-color-scheme:dark){
+  :root[data-theme="system"] .calendly-embed iframe{filter:invert(.9) hue-rotate(180deg);}
+}
+@media (prefers-reduced-motion:reduce){.calendly-embed iframe{transition:none;}}
 
 /* ---------- footer ---------- */
 .site-footer{border-top:1px solid var(--line);padding-block:36px;background:var(--card);}
