@@ -43,7 +43,7 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') setOpen(false);
     });
-    window.matchMedia('(min-width:721px)').addEventListener('change', function (e) {
+    window.matchMedia('(min-width:861px)').addEventListener('change', function (e) {
       if (e.matches) setOpen(false);
     });
   }

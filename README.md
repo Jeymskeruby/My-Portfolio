@@ -1,8 +1,9 @@
 # Portfolio — James Kerby C. Sarmiento
 
 A buildless static portfolio. Hand-written HTML/CSS/JS, no bundler, no framework.
-The only external dependencies of the portfolio shell are Google Fonts (IBM Plex)
-and the Calendly embed script (inline scheduling widget in Contact).
+Every page uses Google Fonts (DM Sans and Manrope) and a Light / Dark / System
+theme switch. Contact works through an email link, LinkedIn, and an inline
+Calendly scheduler.
 
 It showcases two commissioned, multi-role dashboard systems — each rebuilt as a
 safe, self-contained public demo (mock/local backend, deterministic fictional
@@ -12,9 +13,10 @@ plus three Zapier business-process automations.
 ## Structure
 
 ```
-index.html              portfolio landing (hero, about, capabilities, projects, automations, contact)
-css/portfolio.css        design system — tokens shared with the relay-helpdesk demo
-js/portfolio.js          scroll-spy nav, mobile menu, reveal-on-scroll, footer year (no deps)
+index.html              client-focused landing (services, projects, automations, about, contact)
+css/home.css             design tokens (light + dark), header, footer, landing-page sections
+css/case-study.css       case-study layouts, layered on home.css
+js/portfolio.js          theme switch, scroll-spy nav, mobile menu, reveal-on-scroll, footer year (no deps)
 projects/                per-project case studies
   relay-helpdesk.html
   iserve.html
@@ -51,7 +53,8 @@ or a project sub-path — every internal link is relative.
 
 ## Status
 
-- **Phase 1 (done):** site shell, capabilities, five case studies, both live
-  demos wired, deploy workflow. Personal content and media are `<!-- PLACEHOLDER -->`.
-- **Phase 2 (pending):** headshot, résumé, bio/headline/contact strings, LinkedIn;
-  demo thumbnails; favicon/OG image.
+The home page uses the existing headshot, résumé, demos, thumbnails, and case studies.
+The inline Calendly scheduler in the contact section still points at the event
+titled "Interview"; renaming it (or creating a dedicated project-inquiry event and
+swapping the `data-url` in `index.html`) would suit client inquiries better.
+Case-study feature tours still show screenshot placeholders.

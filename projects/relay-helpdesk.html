@@ -3,45 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <script>(function(){try{var t=localStorage.getItem('portfolio-theme');if(t!=='light'&&t!=='dark')t='system';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','system');}})();</script>
+<meta name="theme-color" content="#101b2a">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Relay Helpdesk — Case Study — James Kerby C. Sarmiento</title>
 <meta name="description" content="A multi-role IT helpdesk built on Laravel 13 + Filament + PostgreSQL + Reverb, rebuilt as a buildless vanilla-JS demo on localStorage.">
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/portfolio.css">
-<style>:root{ --accent: var(--relay-amber); --accent-fg: var(--ink-3); }</style>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/home.css">
+<link rel="stylesheet" href="../css/case-study.css">
 <script src="../js/portfolio.js" defer></script>
 </head>
-<body>
+<body class="case-study">
 
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
-  <div class="container">
-    <a class="brand" href="../index.html"><span class="monogram">JKS</span> James Kerby&nbsp;C. Sarmiento</a>
-    <div class="theme-switch" role="group" aria-label="Color theme">
-      <button type="button" class="theme-switch-btn" data-theme-btn="light" aria-pressed="false" aria-label="Light theme" title="Light">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-      </button>
-      <button type="button" class="theme-switch-btn" data-theme-btn="dark" aria-pressed="false" aria-label="Dark theme" title="Dark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-      <button type="button" class="theme-switch-btn" data-theme-btn="system" aria-pressed="true" aria-label="Match system theme" title="System">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-      </button>
-    </div>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
-    <nav class="nav" id="nav">
-      <a href="../index.html#about">About</a>
-      <a href="../index.html#capabilities">Capabilities</a>
-      <a href="../index.html#projects">Projects</a>
-      <a href="../index.html#automations">Automations</a>
-      <a href="../index.html#contact">Contact</a>
-      <a class="btn btn-accent" href="../relay-helpdesk/index.html">Launch demo</a>
+  <div class="container header-inner">
+    <a class="brand" href="../index.html" aria-label="James Kerby Sarmiento, home"><span class="brand-mark">JK<span>.</span></span><span class="brand-name">James Kerby<small>Developer &amp; automation builder</small></span></a>
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <a href="../index.html#services">What I do</a><a href="../index.html#projects">My work</a><a href="../index.html#about">About</a>
+      <a class="nav-cta" href="../index.html#contact">Let's talk <span aria-hidden="true">↗</span></a>
     </nav>
+    <div class="theme-switch" role="group" aria-label="Color theme">
+      <button type="button" class="theme-switch-btn" data-theme-btn="light" aria-pressed="false" aria-label="Light theme" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
+      <button type="button" class="theme-switch-btn" data-theme-btn="dark" aria-pressed="false" aria-label="Dark theme" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      <button type="button" class="theme-switch-btn" data-theme-btn="system" aria-pressed="true" aria-label="Match system theme" title="System"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+    </div>
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
   </div>
 </header>
 
-<main>
+<main id="main">
 
   <div class="casestudy-band">
     <div class="container">
@@ -53,6 +45,7 @@
         <span class="chip">Filament v5</span><span class="chip">PostgreSQL</span>
         <span class="chip">Laravel Reverb (WebSockets)</span>
       </div>
+      <div class="band-actions"><a class="button button-primary" href="../relay-helpdesk/index.html">Try live demo <span aria-hidden="true">↗</span></a></div>
     </div>
   </div>
 
@@ -138,9 +131,9 @@
     <div class="container prose" data-reveal>
       <h2>Try it</h2>
       <div class="btn-row">
-        <a class="btn btn-accent" href="../relay-helpdesk/index.html">Launch the live demo</a>
-        <a class="btn btn-ghost" href="https://github.com/Jeymskeruby/relay-helpdesk" target="_blank" rel="noopener">Source on GitHub</a>
-        <a class="btn btn-ghost" href="../index.html#projects">Back to projects</a>
+        <a class="button button-primary" href="../relay-helpdesk/index.html">Launch the live demo</a>
+        <a class="text-link" href="https://github.com/Jeymskeruby/relay-helpdesk" target="_blank" rel="noopener">Source on GitHub</a>
+        <a class="text-link" href="../index.html#projects">Back to projects</a>
       </div>
       <p class="note">Data persists in your browser's <code>localStorage</code> as you click around, and the ~6-second poll propagates changes between roles. <strong>Reset Demo Data</strong> in the bottom banner restores the fictional starting dataset.</p>
       <div class="note note--plain">
@@ -153,12 +146,7 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="container">
-    <span>© <span id="year">2026</span> James Kerby C. Sarmiento</span>
-    <span><a href="../index.html">Back to portfolio</a></span>
-  </div>
-</footer>
+<footer class="site-footer"><div class="container footer-inner"><span>© <span id="year">2026</span> James Kerby C. Sarmiento</span><a href="../index.html">Back to portfolio ↑</a></div></footer>
 
 </body>
 </html>

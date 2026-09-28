@@ -1,372 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<script>(function(){try{var t=localStorage.getItem('portfolio-theme');if(t!=='light'&&t!=='dark')t='system';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','system');}})();</script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>James Kerby C. Sarmiento — Full-Stack Developer</title>
-<meta name="description" content="Full-stack developer. Two commissioned, multi-role dashboard systems — each rebuilt as a safe, self-contained public demo — plus three Zapier business-process automations. Laravel, Firebase, and buildless vanilla JS.">
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/portfolio.css">
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-<meta property="og:type" content="website">
-<meta property="og:title" content="James Kerby C. Sarmiento — Full-Stack Developer">
-<meta property="og:description" content="Two commissioned, multi-role dashboard systems, each rebuilt as a safe, self-contained public demo — plus three Zapier business-process automations.">
-<meta property="og:image" content="assets/img/og-cover.png">
-<meta name="twitter:card" content="summary_large_image">
-<script src="js/portfolio.js" defer></script>
+  <meta charset="utf-8">
+  <script>(function(){try{var t=localStorage.getItem('portfolio-theme');if(t!=='light'&&t!=='dark')t='system';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','system');}})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b2a">
+  <title>James Kerby Sarmiento | Custom Software &amp; Automation</title>
+  <meta name="description" content="James Kerby Sarmiento builds custom business systems and automations. Explore interactive project demos and get in touch about your workflow.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/home.css">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="James Kerby Sarmiento | Custom Software &amp; Automation">
+  <meta property="og:description" content="Custom business systems and workflow automations, with interactive demos you can explore.">
+  <meta property="og:url" content="https://jeymskeruby.github.io/My-Portfolio/">
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <script src="js/portfolio.js" defer></script>
 </head>
-<body>
-
-<header class="site-header">
-  <div class="container">
-    <a class="brand" href="#top"><span class="monogram">JKS</span> James Kerby&nbsp;C. Sarmiento</a>
-    <div class="theme-switch" role="group" aria-label="Color theme">
-      <button type="button" class="theme-switch-btn" data-theme-btn="light" aria-pressed="false" aria-label="Light theme" title="Light">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-      </button>
-      <button type="button" class="theme-switch-btn" data-theme-btn="dark" aria-pressed="false" aria-label="Dark theme" title="Dark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-      <button type="button" class="theme-switch-btn" data-theme-btn="system" aria-pressed="true" aria-label="Match system theme" title="System">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-      </button>
-    </div>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
-    <nav class="nav" id="nav">
-      <a href="#about">About</a>
-      <a href="#capabilities">Capabilities</a>
-      <a href="#projects">Projects</a>
-      <a href="#automations">Automations</a>
-      <a href="#contact">Contact</a>
-      <a class="btn btn-ghost" href="assets/resume/James_Sarmiento_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
-    </nav>
-  </div>
-</header>
-
-<main>
-
-  <!-- ================= HERO ================= -->
-  <header class="section container hero" id="top">
-    <div data-reveal>
-      <!-- PLACEHOLDER: location, e.g. "Iloilo, Philippines" -->
-      <p class="eyebrow">Full-stack developer · <!-- PLACEHOLDER: location --></p>
-      <!-- PLACEHOLDER: 6–10 word headline -->
-      <h1>I build multi-role systems<br>and ship them as clickable demos.</h1>
-      <!-- PLACEHOLDER: 1–2 sentence intro -->
-      <p class="lead">
-        I take commissioned full-stack products — Laravel, Firebase, .NET — and
-        rebuild each one as a self-contained demo anyone can open and click
-        through: mock backend, fictional data, no credentials.
-      </p>
-      <div class="btn-row hero-cta">
-        <a class="btn btn-primary" href="#projects">View projects</a>
-        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+<body class="home">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="James Kerby Sarmiento, home"><span class="brand-mark">JK<span>.</span></span><span class="brand-name">James Kerby<small>Developer &amp; automation builder</small></span></a>
+      <nav class="nav" id="nav" aria-label="Main navigation">
+        <a href="#services">What I do</a><a href="#projects">My work</a><a href="#about">About</a>
+        <a class="nav-cta" href="#contact">Let's talk <span aria-hidden="true">↗</span></a>
+      </nav>
+      <div class="theme-switch" role="group" aria-label="Color theme">
+        <button type="button" class="theme-switch-btn" data-theme-btn="light" aria-pressed="false" aria-label="Light theme" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
+        <button type="button" class="theme-switch-btn" data-theme-btn="dark" aria-pressed="false" aria-label="Dark theme" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+        <button type="button" class="theme-switch-btn" data-theme-btn="system" aria-pressed="true" aria-label="Match system theme" title="System"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
       </div>
-    </div>
-    <div class="hero-portrait" data-reveal>
-      <img src="assets/img/headshot.png" alt="James Kerby C. Sarmiento">
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
     </div>
   </header>
-
-  <!-- ================= ABOUT ================= -->
-  <section class="section" id="about">
-    <div class="container prose" data-reveal>
-      <p class="eyebrow">About</p>
-      <h2>Full-stack, across the stack — and across platforms.</h2>
-      <!-- PLACEHOLDER: 2–3 short paragraphs of bio -->
-      <p>
-        I'm a full-stack developer who has shipped commissioned software on three
-        very different stacks: a Laravel&nbsp;13 + Inertia/React + Filament admin
-        console backed by PostgreSQL and WebSockets; a Firebase (Firestore + Auth)
-        web app; and a .NET&nbsp;8 VB.NET desktop application. Each was a real
-        multi-role system with a real client.
-      </p>
-      <p>
-        What ties the portfolio together is what I did next with each one.
-      </p>
-      <div class="callout">
-        <strong>Three commissioned, multi-role dashboard systems — each rebuilt as a
-        safe, self-contained public demo.</strong> Mock or local backend,
-        deterministic fictional data, no client data or credentials, one-click
-        role login, and a "Reset Demo Data" button. Open any of them below and
-        click around; nothing talks to a server.
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> Custom software &amp; automation</p>
+          <h1 id="hero-title">Your business has a workflow. <em>Let's make it work better.</em></h1>
+          <p class="hero-lead">I'm James, a full-stack developer. I build custom dashboards, web apps, and automations that help teams spend less time managing the process and more time doing the work.</p>
+          <div class="hero-actions"><a class="button button-primary" href="#contact">Tell me about your project <span aria-hidden="true">↗</span></a><a class="text-link text-link-light" href="#projects">Explore my work <span aria-hidden="true">↓</span></a></div>
+          <p class="hero-note">Have a process in mind? A short email is a great place to start.</p>
+        </div>
+        <div class="hero-visual">
+          <div class="visual-label"><span class="live-dot"></span> A real project, rebuilt to explore</div>
+          <div class="preview-frame"><img src="assets/img/relay-thumb.png" alt="Preview of the Relay Helpdesk dashboard" width="1000" height="625"></div>
+          <a class="preview-link" href="relay-helpdesk/index.html">Try the interactive demo <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ================= CAPABILITIES ================= -->
-  <section class="section" id="capabilities">
-    <div class="container">
-      <div data-reveal>
-        <p class="eyebrow">Capabilities</p>
-        <h2>What I can build and automate — and where I've done it.</h2>
-        <p class="lead">Every capability below is tagged with the project(s) that demonstrate it.</p>
+      <div class="hero-bottom container"><span>Built for the way your team actually works.</span><span aria-hidden="true">↓ &nbsp; Scroll to explore</span></div>
+    </section>
+    <section class="section services-section" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">01 / What I do</p><h2 id="services-title">Practical tools for messy processes.</h2></div><p>From the first form submission to the final handoff, I can help turn repetitive, scattered work into a clearer system.</p></div>
+        <div class="service-grid">
+          <article class="service-card"><span class="service-icon" aria-hidden="true">▦</span><h3>Custom dashboards &amp; portals</h3><p>Give each person the right view of the work, with roles, approvals, tracking, and reporting in one place.</p><a href="#projects">See dashboard examples <span aria-hidden="true">↗</span></a></article>
+          <article class="service-card"><span class="service-icon" aria-hidden="true">◇</span><h3>Web apps with real workflows</h3><p>Turn an idea into a usable product, from user sign-in and matching to notifications and administration.</p><a href="projects/iserve.html">See an app example <span aria-hidden="true">↗</span></a></article>
+          <article class="service-card"><span class="service-icon" aria-hidden="true">↗</span><h3>Workflow automation</h3><p>Connect the tools your team already uses so leads, follow-ups, content, and updates move without manual copying.</p><a href="#automations">See automation examples <span aria-hidden="true">↗</span></a></article>
+        </div>
       </div>
-
-      <div class="caps" data-reveal>
-
-        <div class="cap">
-          <h3>Role-based access &amp; multi-role UX</h3>
-          <p>5- and 4-role dashboards with one-click role login, per-role navigation, and server-side-style guards.</p>
-          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span></div>
+    </section>
+    <section class="section work-section" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">02 / Selected work</p><h2 id="projects-title">See how the systems work.</h2></div><p>These public versions use sample data so you can click through the workflows without a login or access to client information.</p></div>
+        <div class="project-grid">
+          <article class="project-card"><a class="project-image" href="relay-helpdesk/index.html" aria-label="Explore the Relay Helpdesk demo"><img src="assets/img/relay-thumb.png" alt="Relay Helpdesk interface preview" loading="lazy"></a><div class="project-content"><span class="project-type">CUSTOM BUSINESS SYSTEM</span><h3>Relay Helpdesk</h3><p>A helpdesk that routes requests to the right people, tracks response deadlines, and gives teams a clear record of every ticket.</p><p class="project-proof">Explore ticket intake, role-specific dashboards, escalation, and reporting.</p><div class="project-actions"><a class="button button-dark" href="relay-helpdesk/index.html">Try live demo <span aria-hidden="true">↗</span></a><a class="text-link" href="projects/relay-helpdesk.html">Read case study <span aria-hidden="true">→</span></a></div></div></article>
+          <article class="project-card"><a class="project-image" href="iserve/index.html" aria-label="Explore the iServe demo"><img src="assets/img/iserve-thumb.png" alt="iServe interface preview" loading="lazy"></a><div class="project-content"><span class="project-type">MULTI-ROLE WEB APP</span><h3>iServe</h3><p>A volunteer platform that helps people find suitable events while organizers review applications and manage participation.</p><p class="project-proof">Explore matching, join requests, approvals, and notifications.</p><div class="project-actions"><a class="button button-dark" href="iserve/index.html">Try live demo <span aria-hidden="true">↗</span></a><a class="text-link" href="projects/iserve.html">Read case study <span aria-hidden="true">→</span></a></div></div></article>
         </div>
-
-        <div class="cap">
-          <h3>Domain workflow engines</h3>
-          <p>ITSM urgency × impact priority matrix, capacity-aware round-robin routing, automatic SLA-breach escalation, and per-agent time tracking.</p>
-          <div class="tags"><span class="tag tag--relay">Relay</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>Matching &amp; approval flows</h3>
-          <p>Skill-based volunteer ↔ event matching, join-request review, organizer approval, and an admin moderation queue.</p>
-          <div class="tags"><span class="tag tag--iserve">iServe</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>Data modeling &amp; persistence</h3>
-          <p>Versioned localStorage DB with an async API and in-memory fallback; a mock Firestore query engine (<code>where/orderBy/limit</code>, <code>onSnapshot</code>).</p>
-          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>Realtime &amp; cross-role sync</h3>
-          <p>A ~6-second poll that propagates one role's changes to another; Firestore <code>onSnapshot</code> listeners; in-app notifications.</p>
-          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>Reporting &amp; exports</h3>
-          <p>Append-only audit log with CSV/Excel export.</p>
-          <div class="tags"><span class="tag tag--relay">Relay</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>Frontend architecture</h3>
-          <p>Buildless multi-file vanilla JS (31 ordered modules, one re-rendered <code>#app</code>); a Web-Components + Alpine multi-page app.</p>
-          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>Design systems &amp; UI</h3>
-          <p>Token-based CSS design system; Tailwind + a shared component library.</p>
-          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>Production → public demo conversion</h3>
-          <p>Laravel&nbsp;13 + Filament + Postgres + Reverb / Firebase apps reduced to browser-run demos: fictional deterministic data, zero credentials, one-click reset.</p>
-          <div class="tags"><span class="tag tag--relay">Relay</span><span class="tag tag--iserve">iServe</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>Trigger-based workflow automation</h3>
-          <p>Multi-step Zapier automations triggered by new file uploads, webhook form submissions, and CRM status changes, using Filters and Paths to branch logic by condition.</p>
-          <div class="tags"><span class="tag tag--audioblog">Audio-to-Blog</span><span class="tag tag--crm">CRM Pipeline</span><span class="tag tag--leadgen">Lead Routing</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>AI-assisted content &amp; data processing</h3>
-          <p>AI by Zapier for audio transcription, dual blog-post generation, and lead-data analysis and enrichment.</p>
-          <div class="tags"><span class="tag tag--audioblog">Audio-to-Blog</span><span class="tag tag--leadgen">Lead Routing</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>CRM lifecycle automation</h3>
-          <p>A 5-branch Asana status pipeline: lead-folder and subtask creation, timed follow-up sequences with response checks, AI-drafted onboarding and thank-you emails.</p>
-          <div class="tags"><span class="tag tag--crm">CRM Pipeline</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>Lead capture, enrichment &amp; routing</h3>
-          <p>Webhook intake → Apollo company enrichment → AI qualification → priority-based routing to a spreadsheet with Slack/Gmail alerts.</p>
-          <div class="tags"><span class="tag tag--leadgen">Lead Routing</span></div>
-        </div>
-
-        <div class="cap">
-          <h3>Cross-app, no-code integration</h3>
-          <p>Google Drive, Gmail, Asana, Slack, Google Sheets, and Apollo wired together entirely in Zapier, no custom backend.</p>
-          <div class="tags"><span class="tag tag--audioblog">Audio-to-Blog</span><span class="tag tag--crm">CRM Pipeline</span><span class="tag tag--leadgen">Lead Routing</span></div>
-        </div>
-
+        <p class="work-disclosure">The interactive demos are separate, browser-based reconstructions of commissioned projects. They use fictional data and do not connect to the original client systems.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- ================= PROJECTS ================= -->
-  <section class="section" id="projects">
-    <div class="container">
-      <div data-reveal>
-        <p class="eyebrow">Projects</p>
-        <h2>Two systems. Two stacks. One approach.</h2>
-      </div>
-
-      <div class="grid">
-
-        <!-- Relay Helpdesk -->
-        <article class="card card--relay" data-reveal>
-          <div class="card-thumb"><img src="assets/img/relay-thumb.png" alt="Relay Helpdesk screenshot"></div>
-          <div class="card-body">
-            <h3>Relay Helpdesk</h3>
-            <p class="desc">
-              A multi-role IT helpdesk / ticketing platform: categorised intake, an
-              ITSM priority matrix, capacity-aware routing, SLA-breach escalation,
-              time tracking, a knowledge base, and an append-only audit log with
-              CSV/Excel export. Originally Laravel&nbsp;13 + Inertia/React + Filament&nbsp;v5
-              + PostgreSQL + Reverb; the demo is buildless vanilla JS on localStorage.
-            </p>
-            <div class="tags">
-              <span class="tag">5 roles</span><span class="tag">localStorage DB</span>
-              <span class="tag">vanilla JS</span><span class="tag">SLA engine</span>
-            </div>
-            <div class="btn-row">
-              <a class="btn btn-accent" href="relay-helpdesk/index.html">Launch demo</a>
-              <a class="btn btn-ghost" href="projects/relay-helpdesk.html">Case study</a>
-              <a class="btn btn-ghost" href="https://github.com/Jeymskeruby/relay-helpdesk" target="_blank" rel="noopener">Code</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- iServe -->
-        <article class="card card--iserve" data-reveal>
-          <div class="card-thumb"><img src="assets/img/iserve-thumb.png" alt="iServe screenshot"></div>
-          <div class="card-body">
-            <h3>iServe</h3>
-            <p class="desc">
-              A volunteer-matching platform: volunteers ↔ event organizers ↔ admin
-              moderation, with skill-based matching, event join/approval flows, and a
-              notifications centre. Originally a Firebase (Firestore + Auth) app; the
-              demo replaces Firebase with an in-browser mock of the exact API slice it uses.
-            </p>
-            <div class="tags">
-              <span class="tag">3 roles + admin</span><span class="tag">mock Firebase</span>
-              <span class="tag">Alpine + Web Components</span><span class="tag">multi-page</span>
-            </div>
-            <div class="btn-row">
-              <a class="btn btn-accent" href="iserve/index.html">Launch demo</a>
-              <a class="btn btn-ghost" href="projects/iserve.html">Case study</a>
-              <!-- PLACEHOLDER: iServe repo URL — add a Code button here if one exists -->
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= AUTOMATIONS ================= -->
-  <section class="section" id="automations">
-    <div class="container">
-      <div data-reveal>
-        <p class="eyebrow">Automations</p>
-        <h2>Three automations. Three business problems. One toolkit: Zapier.</h2>
-      </div>
-
-      <div class="grid">
-
-        <!-- Audio-to-Blog Social Publisher -->
-        <article class="card card--audioblog" data-reveal>
-          <div class="card-thumb"><img src="assets/img/auto-audioblog-thumb.png" alt="Audio-to-Blog Social Publisher workflow screenshot"></div>
-          <div class="card-body">
-            <h3>Audio-to-Blog Social Publisher</h3>
-            <p class="desc">
-              A Zapier automation that turns a dropped-in mp3 into published social
-              content: detects a new upload in a Google Drive folder, filters for
-              audio files, transcribes with AI, then generates two distinct blog
-              posts (title + content pairs). Paths splits the two variants so each
-              one is auto-posted to LinkedIn, Facebook, or Instagram.
-            </p>
-            <div class="tags">
-              <span class="tag">Zapier</span><span class="tag">AI by Zapier</span>
-              <span class="tag">Paths</span><span class="tag">Social publishing</span>
-            </div>
-            <div class="btn-row">
-              <a class="btn btn-accent" href="projects/auto-audioblog.html">View workflow breakdown</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Asana CRM Lead Pipeline -->
-        <article class="card card--crm" data-reveal>
-          <div class="card-thumb"><img src="assets/img/auto-crm-thumb.png" alt="Asana CRM Lead Pipeline workflow screenshot"></div>
-          <div class="card-body">
-            <h3>Asana CRM Lead Pipeline</h3>
-            <p class="desc">
-              A status-driven CRM automation in Asana: a task's Status field fans
-              out via Paths into five lifecycle workflows — lead-folder and
-              subtask creation, timed follow-up sequences with response checks,
-              a quote follow-up sequence, an AI-drafted onboarding email with
-              invoice attachment, and an AI-drafted thank-you email on close.
-            </p>
-            <div class="tags">
-              <span class="tag">Zapier</span><span class="tag">Asana</span>
-              <span class="tag">Gmail</span><span class="tag">AI by Zapier</span>
-              <span class="tag">Delay / Filter logic</span>
-            </div>
-            <div class="btn-row">
-              <a class="btn btn-accent" href="projects/auto-crm.html">View workflow breakdown</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Lead Enrichment & Routing -->
-        <article class="card card--leadgen" data-reveal>
-          <div class="card-thumb"><img src="assets/img/auto-leadgen-thumb.png" alt="Lead Enrichment &amp; Routing workflow screenshot"></div>
-          <div class="card-body">
-            <h3>Lead Enrichment &amp; Routing</h3>
-            <p class="desc">
-              A webhook-driven lead-qualification pipeline: captures form
-              submissions, parses the lead's email domain, enriches the company
-              via Apollo, then uses AI to analyze company size and founding
-              year. Paths route High Priority leads and everything else into
-              parallel flows that log to a spreadsheet and notify the team on
-              Slack/Gmail.
-            </p>
-            <div class="tags">
-              <span class="tag">Zapier</span><span class="tag">Webhooks</span>
-              <span class="tag">Apollo</span><span class="tag">AI by Zapier</span>
-              <span class="tag">Google Sheets</span><span class="tag">Slack</span>
-            </div>
-            <div class="btn-row">
-              <a class="btn btn-accent" href="projects/auto-leadgen.html">View workflow breakdown</a>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= CONTACT ================= -->
-  <section class="section section--tight" id="contact">
-    <div class="container">
-      <div class="prose" data-reveal>
-        <p class="eyebrow">Contact</p>
-        <h2>Let's talk.</h2>
-        <p class="lead">
-          <a href="mailto:james.sarmiento.1456@gmail.com">james.sarmiento.1456@gmail.com</a> ·
-          <a href="https://github.com/Jeymskeruby" target="_blank" rel="noopener">github.com/Jeymskeruby</a> ·
-          <a href="https://www.linkedin.com/in/james-kerby-sarmiento-809b33315" target="_blank" rel="noopener">LinkedIn</a> ·
-          <a href="assets/resume/James_Sarmiento_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
-        </p>
-      </div>
-      <div class="calendly-embed" data-reveal>
-        <div class="calendly-inline-widget" data-url="https://calendly.com/james-sarmiento-1456/interview"></div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="site-footer">
-  <div class="container">
-    <span>© <span id="year">2026</span> James Kerby C. Sarmiento</span>
-    <span>Built buildless — hand-written HTML/CSS/JS, deployed on GitHub Pages</span>
-  </div>
-</footer>
-
+    </section>
+    <section class="section automation-section" id="automations" aria-labelledby="automations-title">
+      <div class="container automation-layout"><div class="automation-intro"><p class="eyebrow">03 / Automation examples</p><h2 id="automations-title">Let the tools talk to each other.</h2><p>Small handoffs add up. These workflows show how I connect apps and build decision points into everyday operations.</p><a class="text-link" href="#contact">Discuss an automation <span aria-hidden="true">↗</span></a></div><div class="automation-list">
+        <a href="projects/auto-leadgen.html"><span class="automation-number">01</span><span><strong>Lead capture &amp; routing</strong><small>Qualify incoming leads and notify the right team.</small></span><span aria-hidden="true">↗</span></a>
+        <a href="projects/auto-crm.html"><span class="automation-number">02</span><span><strong>CRM follow-ups</strong><small>Trigger next steps as a lead moves through the pipeline.</small></span><span aria-hidden="true">↗</span></a>
+        <a href="projects/auto-audioblog.html"><span class="automation-number">03</span><span><strong>Audio to content</strong><small>Turn an uploaded recording into content and publishing steps.</small></span><span aria-hidden="true">↗</span></a>
+      </div></div>
+    </section>
+    <section class="section about-section" id="about" aria-labelledby="about-title"><div class="container about-grid"><div class="about-photo"><img src="assets/img/headshot.png" alt="James Kerby Sarmiento" loading="lazy"></div><div class="about-copy"><p class="eyebrow">04 / The person behind the build</p><h2 id="about-title">Hi, I'm James.</h2><p>I build software around the way people actually work. My projects span helpdesk operations, volunteer coordination, and business automation, using the stack that fits the problem.</p><p>I care about the details that make a tool usable: clear roles, sensible handoffs, and a way to see what happened when something changes.</p><div class="about-links"><a class="text-link" href="assets/resume/James_Sarmiento_Resume.pdf" target="_blank" rel="noopener">View résumé ↗</a><a class="text-link" href="https://github.com/Jeymskeruby" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a class="text-link" href="https://www.linkedin.com/in/james-kerby-sarmiento-809b33315" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div></div></div></section>
+    <section class="contact-section" id="contact" aria-labelledby="contact-title"><div class="container contact-grid"><div><p class="eyebrow">05 / Get in touch</p><h2 id="contact-title">Tell me what you're trying to solve.</h2><p>Whether you have a detailed brief or just a process that needs fixing, send a few lines about the work. I'll take it from there.</p></div><div class="contact-card"><span class="contact-card-label">START A CONVERSATION</span><a class="button button-primary" href="mailto:james.sarmiento.1456@gmail.com?subject=Project%20inquiry%20for%20James">Email James <span aria-hidden="true">↗</span></a><a class="contact-email" href="mailto:james.sarmiento.1456@gmail.com">james.sarmiento.1456@gmail.com</a><p>Helpful to include: what you're building, who's using it, and your ideal timeline.</p><div class="contact-divider"></div><a class="contact-link" href="https://www.linkedin.com/in/james-kerby-sarmiento-809b33315" target="_blank" rel="noopener noreferrer">Connect on LinkedIn <span aria-hidden="true">↗</span></a></div></div><div class="container calendly-block"><p class="calendly-label"><strong>Prefer to talk it through?</strong> Pick a time that works for you.</p><div class="calendly-embed"><div class="calendly-inline-widget" data-url="https://calendly.com/james-sarmiento-1456/interview"></div></div></div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><span>© <span id="year">2026</span> James Kerby C. Sarmiento</span><a href="#top">Back to top ↑</a></div></footer>
 </body>
 </html>
