@@ -2,8 +2,8 @@
 
 A buildless static portfolio. Hand-written HTML/CSS/JS, no bundler, no framework.
 Every page uses Google Fonts (DM Sans and Manrope) and a Light / Dark / System
-theme switch. Contact works through an email link, LinkedIn, and an inline
-Calendly scheduler.
+theme switch. Contact works through an email link, with LinkedIn as a secondary
+option.
 
 It showcases two commissioned, multi-role dashboard systems — each rebuilt as a
 safe, self-contained public demo (mock/local backend, deterministic fictional
@@ -54,7 +54,9 @@ or a project sub-path — every internal link is relative.
 ## Status
 
 The home page uses the existing headshot, résumé, demos, thumbnails, and case studies.
-The inline Calendly scheduler in the contact section still points at the event
-titled "Interview"; renaming it (or creating a dedicated project-inquiry event and
-swapping the `data-url` in `index.html`) would suit client inquiries better.
+The inline Calendly scheduler is disabled for now: its markup in `#contact` and the
+`widget.js` script in `<head>` are commented out in `index.html` (the styles stay in
+`css/home.css`). To re-enable, uncomment both. It points at the event titled
+"Interview"; renaming it (or creating a dedicated project-inquiry event and swapping
+the `data-url`) would suit client inquiries better.
 Case-study feature tours still show screenshot placeholders.
